@@ -1,0 +1,5 @@
+{
+    "name": "Guest List",
+    "description": "Guest management for events — invitations, RSVPs, seating",
+    "screens": ["guest-table"]
+}

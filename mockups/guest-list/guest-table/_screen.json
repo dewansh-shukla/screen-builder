@@ -1,0 +1,10 @@
+{
+    "name": "Guest Table",
+    "description": "Main guest list view with search, RSVP status badges, and stats cards",
+    "status": "draft",
+    "components": ["Button", "Input", "Table", "TableCard", "Badge", "BadgeWithDot", "Avatar", "Checkbox", "Dropdown", "Pagination"],
+    "devNotes": "Uses hardcoded guest data. Replace with API call to /api/guests. Search filters by name and email client-side. Pagination is visual only.",
+    "createdAt": "2026-03-17",
+    "updatedAt": "2026-03-17",
+    "version": 1
+}

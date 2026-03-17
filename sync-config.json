@@ -1,0 +1,61 @@
+{
+  "sourceRepo": "git@github.com:commerce56/zapigowebclient.git",
+  "sourcePath": "/Users/dewanshshukla/Desktop/zapigo/zapigowebclient",
+  "components": {
+    "include": [
+      "src/components/*.tsx",
+      "src/components/home/**",
+      "src/components/gifter/**",
+      "src/components/product/**",
+      "src/components/shared/**",
+      "src/components/icons/**",
+      "src/components/ui/**"
+    ],
+    "exclude": [
+      "src/components/base/**",
+      "src/components/application/**",
+      "src/components/foundations/**",
+      "src/components/marketing/**",
+      "src/components/AuthInitializer.tsx",
+      "src/components/PostLoginCallbackHandler.tsx",
+      "src/components/ProtectedRoute.tsx",
+      "src/components/GoogleAnalytics.tsx",
+      "src/components/ScrollPreservation.tsx"
+    ]
+  },
+  "hooks": {
+    "include": [
+      "src/hooks/**"
+    ],
+    "exclude": [
+      "src/hooks/useAuth.ts",
+      "src/hooks/gallery/**"
+    ]
+  },
+  "targetMapping": {
+    "src/components": "src/components/synced",
+    "src/hooks": "src/hooks/synced"
+  },
+  "apiPatterns": [
+    "@tanstack/react-query",
+    "@/lib/axios",
+    "@/lib/c56Api",
+    "@/lib/universal",
+    "@/lib/paymentApi",
+    "@/lib/affiliate-api",
+    "@/lib/imagekit",
+    "@/lib/firebase",
+    "@/lib/gallery-api",
+    "@/hooks/useAuth",
+    "@/hooks/gallery",
+    "@/store/useAuthStore",
+    "@/services/",
+    "@/app/(events-and-wedding)",
+    "sonner",
+    "axios"
+  ],
+  "importRemaps": {
+    "@/components/base/": "@/components/base/",
+    "@/components/application/": "@/components/application/"
+  }
+}
