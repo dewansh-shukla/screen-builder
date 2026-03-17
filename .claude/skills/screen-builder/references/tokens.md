@@ -207,3 +207,39 @@ className="transition duration-100 ease-linear"
 | `lg:` | 1024px |
 | `xl:` | 1280px |
 | `2xl:` | 1536px |
+
+---
+
+## Brand Colors
+
+Brand colors are **orange** (not purple). The brand scale runs from warm off-white (`brand-25`) through deep burnt orange (`brand-950`).
+
+### Custom Background Variables
+
+| Variable | Value | Usage |
+|----------|-------|-------|
+| `--background-color-warm` | `#FFF7E5` | Warm cream background for management/community pages |
+| `--background-color-yellow` | `#FFCC1D` | App accent yellow |
+| `--background-color-button-primary` | `#DC6803` | Primary button override |
+
+Use inline style for warm backgrounds: `style={{ backgroundColor: 'var(--background-color-warm)' }}`
+
+---
+
+## Font Families
+
+| Class | Font | Usage |
+|-------|------|-------|
+| `font-lexend` | Lexend | Body text, labels, UI copy |
+| `font-literata` | Literata | Display headings, hero text |
+| `font-dm-sans` | DM Sans | Alternative body font |
+
+---
+
+## Responsive Requirements
+
+All mockup screens **must** be responsive (mobile-first):
+- Use `md:` / `lg:` / `xl:` breakpoints for progressive enhancement
+- On mobile (< 768px): stack vertically, full-width cards
+- On desktop (xl:+): wider layouts, side-by-side panels, table views
+- Tables should switch to card layout on mobile or be horizontally scrollable
