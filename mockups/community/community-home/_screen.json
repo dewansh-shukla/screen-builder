@@ -1,0 +1,10 @@
+{
+  "name": "Community Home",
+  "description": "Community page with a brand banner and calendar showing past events with highlighted dates",
+  "status": "draft",
+  "components": ["PageWrapper", "Calendar", "Badge", "FeaturedIcon"],
+  "devNotes": "Uses CalendarContextProvider to wrap Calendar. Past events are highlighted on the calendar via highlightedDates prop. Tapping a highlighted date or event card shows event details.",
+  "createdAt": "2026-03-17",
+  "updatedAt": "2026-03-17",
+  "version": 1
+}
