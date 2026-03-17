@@ -69,7 +69,10 @@ export function LoginModal({
   // [STRIPPED] useToast — replaced with console.log
 const toast = (...args: any[]) => console.log('[Toast]', ...args);
 
-  // [STRIPPED] useAuth/useAuthStore — values now come from props
+  // [STRIPPED] useAuth/useAuthStore — stubbed for screen-builder
+  const isAuthenticated = false;
+  const userData: { display_name?: string } | null = null;
+  const logout = () => {};
 
   // Reset state when modal opens
   useEffect(() => {

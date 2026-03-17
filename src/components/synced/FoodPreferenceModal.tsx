@@ -63,7 +63,10 @@ export const FoodPreferenceModal: React.FC<FoodPreferenceModalProps> = ({
   // [STRIPPED] useToast — replaced with console.log
 const toast = (...args: any[]) => console.log('[Toast]', ...args);
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  // [STRIPPED] useAuth/useAuthStore — values now come from props
+  // [STRIPPED] useAuth/useAuthStore — stubbed for screen-builder
+  const isAuthenticated = false;
+  const userData: { display_name?: string } | null = null;
+  const logout = () => {};
 
   // Local state for form values
   const [vegEnabled, setVegEnabled] = useState(false);

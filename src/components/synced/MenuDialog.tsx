@@ -46,7 +46,10 @@ interface MenuItem {
 }
 
 export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
-  // [STRIPPED] useAuth/useAuthStore — values now come from props
+  // [STRIPPED] useAuth/useAuthStore — stubbed for screen-builder
+  const isAuthenticated = false;
+  const userData: { display_name?: string } | null = null;
+  const logout = () => {};
   const router = useRouter();
   const { openLoginModal } = useLoginModal();
   const [isMobile, setIsMobile] = useState(true);

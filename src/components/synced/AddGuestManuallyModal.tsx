@@ -146,7 +146,10 @@ export const AddGuestManuallyModal: React.FC<AddGuestManuallyModalProps> = ({
   eventId,
 }) => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  // [STRIPPED] useAuth/useAuthStore — values now come from props
+  // [STRIPPED] useAuth/useAuthStore — stubbed for screen-builder
+  const isAuthenticated = false;
+  const userData: { display_name?: string } | null = null;
+  const logout = () => {};
 
   // Form state
   const [firstName, setFirstName] = useState('');
