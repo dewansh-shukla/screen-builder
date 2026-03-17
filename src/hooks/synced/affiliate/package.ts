@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/affiliate/package.ts
-// Last synced: 2026-03-17T11:05:34.437Z
+// Last synced: 2026-03-17T11:17:27.028Z
 // API integrations stripped. Use props for data and callbacks.
 // [STRIPPED] import { useQuery } from '@tanstack/react-query';
 // [STRIPPED] import { affiliateApi } from '@/lib/affiliate-api';
@@ -16,6 +16,7 @@ import type {
   AffiliatePackagesByTagNameResponse,
 } from '@/types/affiliate/package';
 // [STRIPPED] import { useMutation } from '@tanstack/react-query';
+// [STRIPPED] 
 const buildQueryString = (params?: AffiliatePackagesQueryParams) => {
   const limit = params?.limit ?? 50;
   const offset = params?.offset ?? 0;
@@ -34,57 +35,33 @@ export const fetchAffiliatePackages = async (
   params?: AffiliatePackagesQueryParams,
 ): Promise<AffiliatePackagesResponse> => {
   const queryString = buildQueryString(params);
-  const { data } = await affiliateApi.get<AffiliatePackagesResponse>(
-    `/public/packages${queryString}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const useAffiliatePackages = (params?: AffiliatePackagesQueryParams) => {
-  return useQuery({
-    queryKey: ['affiliate-packages', params?.q ?? null, params?.limit ?? 50, params?.offset ?? 0],
-    queryFn: () => fetchAffiliatePackages(params),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const createPackageBooking = async (
   params: CreatePackageBookingParams,
 ): Promise<PackageBookingResponse> => {
   const { package_id, customer_id, booking_id } = params;
-  const { data } = await affiliateApi.post<PackageBookingResponse>(
-    '/customer/package-bookings',
-    {},
-    {
-      params: {
-        package_id,
-        customer_id,
-        ...(booking_id ? { booking_id } : {}),
-      },
-    },
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
-export const useCreatePackageBooking = () =>
-  useMutation({
-    mutationFn: createPackageBooking,
-  });
+export const useCreatePackageBooking = () => ({ mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const });
 
 export const fetchAffiliatePackageById = async (
   packageId: string,
 ): Promise<AffiliatePackageItem> => {
-  const { data } = await affiliateApi.get<AffiliatePackageItem>(
-    `/public/packages/${packageId}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const useAffiliatePackageById = (packageId: string) => {
-  return useQuery({
-    queryKey: ['affiliate-package', packageId],
-    queryFn: () => fetchAffiliatePackageById(packageId),
-    enabled: !!packageId,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 
@@ -97,20 +74,14 @@ export const fetchAffiliatePackagesByTag = async (
   if (params.tagId) search.set('tagId', params.tagId);
   if (params.tagIds) search.set('tagIds', params.tagIds);
   const qs = search.toString();
-  const { data } = await affiliateApi.get<AffiliatePackagesByTagResponse>(
-    `/public/packages/by-tag${qs ? `?${qs}` : ''}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const useAffiliatePackagesByTag = (
   params: AffiliatePackagesByTagQueryParams,
 ) => {
-  return useQuery({
-    queryKey: ['affiliate-packages-by-tag', params.tagId ?? null, params.tagIds ?? null, params.limit ?? null],
-    queryFn: () => fetchAffiliatePackagesByTag(params),
-    enabled: Boolean(params.tagId || params.tagIds),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 // Fetch packages by tag name
@@ -123,19 +94,13 @@ export const fetchAffiliatePackagesByTagName = async (
   if (params.limit !== undefined) search.set('limit', String(params.limit));
   if (params.offset !== undefined) search.set('offset', String(params.offset));
   const qs = search.toString();
-  const { data } = await affiliateApi.get<AffiliatePackagesByTagNameResponse>(
-    `/public/packages/by-tag-name${qs ? `?${qs}` : ''}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const useAffiliatePackagesByTagName = (
   params: AffiliatePackagesByTagNameQueryParams,
 ) => {
-  return useQuery<AffiliatePackagesByTagNameResponse>({
-    queryKey: ['affiliate-packages-by-tag-name', params.tagName, params.q ?? null, params.limit ?? null, params.offset ?? 0],
-    queryFn: () => fetchAffiliatePackagesByTagName(params),
-    enabled: Boolean(params.tagName && params.tagName.length > 0),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 

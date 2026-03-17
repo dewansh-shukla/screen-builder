@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/LocationAutocomplete.tsx
-// Last synced: 2026-03-17T11:05:34.416Z
+// Last synced: 2026-03-17T11:17:27.003Z
 // API integrations stripped. Use props for data and callbacks.
 import { useState, useEffect, useCallback } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
@@ -10,6 +10,7 @@ import { SelectItem } from '@/components/base/select/select-item';
 import { debounce } from 'lodash';
 // [STRIPPED] import api from '@/lib/axios';
 // [STRIPPED] import { universalApi } from '@/lib/universal';
+// [STRIPPED] 
 interface Prediction {
   place_id: string;
   description: string;
@@ -59,7 +60,7 @@ export function LocationAutocomplete({
     }
 
     try {
-      const response = /* TODO: Manual review needed — api call stripped */ undefined;
+      const response = /* [STRIPPED] api call */ undefined;
       setPredictions(response.data.predictions || []);
     } catch (error) {
       console.error('Error fetching predictions:', error);
@@ -77,7 +78,7 @@ export function LocationAutocomplete({
 
   const getPlaceDetails = async (placeId: string) => {
     try {
-      const response = /* TODO: Manual review needed — universalApi call stripped */ undefined;
+      const response = /* [STRIPPED] universalApi call */ undefined;
       const data = response.data;
 
       if (data) {

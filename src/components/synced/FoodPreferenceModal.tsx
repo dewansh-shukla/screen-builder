@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/FoodPreferenceModal.tsx
-// Last synced: 2026-03-17T11:05:34.407Z
+// Last synced: 2026-03-17T11:17:26.992Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 /*
@@ -37,6 +37,7 @@ import { TextEditor } from '@/components/base/text-editor/text-editor';
 // [STRIPPED] import { getEventConfig, updateEventConfigWithMerge, toFoodFieldStatus, isFoodPreferenceRequired, isAskFoodField, ConfigFieldStatus } from '@/app/(events-and-wedding)/(events)/services/eventConfigApi';
 // [STRIPPED] import { useToast } from '@/hooks/use-toast';
 // [STRIPPED] import { useAuth } from '@/hooks/useAuth';
+// [STRIPPED] 
 interface FoodPreferenceModalProps {
   open: boolean;
   onClose: () => void;
@@ -78,9 +79,9 @@ const toast = (...args: any[]) => console.log('[Toast]', ...args);
   // Initialize form: toggles from event config only; food note from event
   useEffect(() => {
     if (eventConfigData?.data?.event) {
-      setVegEnabled(isFoodPreferenceRequired(eventConfigData.data.event.food_preference));
+      setVegEnabled(/* [STRIPPED] isFoodPreferenceRequired call */ ((() => undefined) as any)());
       // For allergies, if it's OPTIONAL or REQUIRED in the backend, the toggle should be ON
-      setNonVegEnabled(isAskFoodField(eventConfigData.data.event.food_allergies));
+      setNonVegEnabled(/* [STRIPPED] isAskFoodField call */ ((() => undefined) as any)());
     }
   }, [eventConfigData]);
   useEffect(() => {

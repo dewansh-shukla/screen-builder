@@ -47,6 +47,22 @@ const BLOCKED_IMPORT_SOURCES = [
   "axios",
 ];
 
+/** Regex patterns for dynamic blocked import matching */
+const BLOCKED_IMPORT_PATTERNS: RegExp[] = [
+  /^@\/lib\/\w+Service$/, // @/lib/themeLibraryService, etc.
+  /^@\/lib\/\w+Api$/,     // @/lib/someApi (catches any *Api not already in exact list)
+];
+
+// ---------------------------------------------------------------------------
+// Mock return values
+// ---------------------------------------------------------------------------
+
+const MOCK_QUERY_RETURN =
+  "{ data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const }";
+
+const MOCK_MUTATION_RETURN =
+  "{ mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const }";
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -97,13 +113,18 @@ function mutationVarToPendingName(varName: string): string {
 
 /** Check if an import source matches any blocked pattern */
 function isBlockedImport(source: string): boolean {
-  return BLOCKED_IMPORT_SOURCES.some((blocked) => {
+  // Exact or prefix match against BLOCKED_IMPORT_SOURCES
+  const exactMatch = BLOCKED_IMPORT_SOURCES.some((blocked) => {
     // For patterns ending with "/" we do a startsWith check
     if (blocked.endsWith("/")) {
       return source.startsWith(blocked) || source === blocked.slice(0, -1);
     }
     return source === blocked;
   });
+  if (exactMatch) return true;
+
+  // Regex pattern match
+  return BLOCKED_IMPORT_PATTERNS.some((pattern) => pattern.test(source));
 }
 
 /**
@@ -117,14 +138,104 @@ function findBalancedEnd(
   closeChar: string = ")"
 ): number {
   let depth = 0;
+  let inString: string | null = null;
+  let escaped = false;
+  let inTemplateLiteral = false;
+
   for (let i = startIndex; i < code.length; i++) {
-    if (code[i] === openChar) depth++;
-    else if (code[i] === closeChar) {
+    const ch = code[i];
+
+    // Handle escape sequences inside strings
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (ch === "\\") {
+      escaped = true;
+      continue;
+    }
+
+    // Handle string boundaries
+    if (inString) {
+      if (ch === inString) {
+        if (inString === "`") inTemplateLiteral = false;
+        inString = null;
+      }
+      continue;
+    }
+
+    // Start of string
+    if (ch === '"' || ch === "'" || ch === "`") {
+      inString = ch;
+      if (ch === "`") inTemplateLiteral = true;
+      continue;
+    }
+
+    // Skip single-line comments
+    if (ch === "/" && i + 1 < code.length) {
+      if (code[i + 1] === "/") {
+        // Skip to end of line
+        const eol = code.indexOf("\n", i);
+        if (eol !== -1) i = eol;
+        else i = code.length;
+        continue;
+      }
+      if (code[i + 1] === "*") {
+        // Skip to end of block comment
+        const end = code.indexOf("*/", i + 2);
+        if (end !== -1) i = end + 1;
+        else i = code.length;
+        continue;
+      }
+    }
+
+    if (ch === openChar) depth++;
+    else if (ch === closeChar) {
       depth--;
       if (depth === 0) return i;
     }
   }
   return -1; // unbalanced
+}
+
+/**
+ * Replace all occurrences of a pattern found via regex, using balanced delimiter
+ * matching to find the full span of each match.
+ */
+function replaceWithBalancedParens(
+  code: string,
+  pattern: RegExp,
+  replacement: (fullMatch: string, regexMatch: RegExpExecArray) => string
+): string {
+  // Work from end to start to preserve indices
+  const matches: { start: number; end: number; regexMatch: RegExpExecArray }[] = [];
+  let m: RegExpExecArray | null;
+  const patternCopy = new RegExp(pattern.source, pattern.flags);
+
+  while ((m = patternCopy.exec(code)) !== null) {
+    // Find the opening paren at the end of the regex match
+    const parenStart = code.indexOf("(", m.index + m[0].length - 1);
+    if (parenStart === -1) continue;
+    const parenEnd = findBalancedEnd(code, parenStart, "(", ")");
+    if (parenEnd === -1) continue;
+
+    matches.push({
+      start: m.index,
+      end: parenEnd + 1,
+      regexMatch: m,
+    });
+  }
+
+  // Replace from end to start
+  let result = code;
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const { start, end, regexMatch } = matches[i];
+    const fullMatch = result.slice(start, end);
+    const rep = replacement(fullMatch, regexMatch);
+    result = result.slice(0, start) + rep + result.slice(end);
+  }
+
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -143,17 +254,51 @@ export function stripApiFromFile(
   let code = source;
 
   // =========================================================================
-  // STEP 1: Remove blocked import lines
+  // STEP 1: Remove blocked import lines (preserve type-only imports)
   // =========================================================================
-
-  // Match import statements (single-line and multi-line)
-  // Handles: import { X } from 'module';  and  import X from 'module';
-  const importRegex =
-    /^import\s+(?:(?:type\s+)?(?:\{[^}]*\}|[\w*]+(?:\s*,\s*\{[^}]*\})?)\s+from\s+)?['"]([^'"]+)['"]\s*;?\s*$/gm;
 
   const removedImportSpecifiers: string[] = [];
 
-  code = code.replace(importRegex, (match, importSource: string) => {
+  // Handle multi-line imports first (import {\n  ...\n} from '...')
+  const multiLineImportRegex =
+    /^import\s+(?:type\s+)?\{[^}]*\}\s+from\s+['"]([^'"]+)['"]\s*;?\s*$/gm;
+
+  code = code.replace(multiLineImportRegex, (match, importSource: string) => {
+    // Preserve type-only imports — they contain no runtime API code
+    if (/^import\s+type\s+/.test(match)) {
+      return match;
+    }
+
+    if (isBlockedImport(importSource)) {
+      // Collect what was imported so we know what identifiers are now undefined
+      const specifierMatch = match.match(/\{([^}]*)\}/s);
+      if (specifierMatch) {
+        specifierMatch[1].split(",").forEach((s) => {
+          // Remove inline comments and whitespace
+          const cleaned = s.replace(/\/\/.*$/gm, "").trim().replace(/\s+as\s+\w+/, "").trim();
+          if (cleaned) removedImportSpecifiers.push(cleaned);
+        });
+      }
+      // Comment out every line of the multi-line import
+      const lines = match.split("\n");
+      return lines.map((line) => `// [STRIPPED] ${line}`).join("\n");
+    }
+    return match;
+  });
+
+  // Handle single-line imports: import X from '...' and import { X } from '...'
+  const singleLineImportRegex =
+    /^import\s+(?:(?:type\s+)?(?:\{[^}]*\}|[\w*]+(?:\s*,\s*\{[^}]*\})?)\s+from\s+)?['"]([^'"]+)['"]\s*;?\s*$/gm;
+
+  code = code.replace(singleLineImportRegex, (match, importSource: string) => {
+    // Skip already-stripped lines
+    if (match.trimStart().startsWith("//")) return match;
+
+    // Preserve type-only imports — they contain no runtime API code
+    if (/^import\s+type\s+/.test(match)) {
+      return match;
+    }
+
     if (isBlockedImport(importSource)) {
       // Collect what was imported so we know what identifiers are now undefined
       const specifierMatch = match.match(/\{([^}]+)\}/);
@@ -176,7 +321,7 @@ export function stripApiFromFile(
   });
 
   // =========================================================================
-  // STEP 2: Handle useQuery calls
+  // STEP 2: Handle useQuery calls — const { data, ... } = useQuery(...)
   // =========================================================================
 
   // Pattern: const { data: alias, isLoading, error } = useQuery<Type>({...})
@@ -238,31 +383,48 @@ export function stripApiFromFile(
     }
   }
 
-  // Remove the useQuery call lines (including the full expression spanning multiple lines)
-  code = code.replace(
+  // Remove the useQuery assignment + call using balanced paren matching
+  code = replaceWithBalancedParens(
+    code,
     /const\s+\{[^}]+\}\s*=\s*useQuery(?:<[^>]+>)?\s*\(/g,
-    (match) => {
-      // Find the matching closing paren from the original code position
-      return "// [STRIPPED] useQuery replaced with props\n// ";
+    (fullMatch) => {
+      // Include trailing semicolon
+      return "// [STRIPPED] useQuery — data now comes from props";
     }
   );
-
-  // Clean up: remove any remaining useQuery(...) blocks more aggressively
-  // We need to handle the multiline object argument
-  const useQueryFullRegex =
-    /\/\/ \[STRIPPED\] useQuery replaced with props\n\/\/ [^;]*?(?:\{[\s\S]*?\}\s*\))\s*;?/g;
-  code = code.replace(useQueryFullRegex, (match) => {
-    return "// [STRIPPED] useQuery — data now comes from props";
-  });
-
-  // Simpler fallback: remove lines that are just leftover fragments
+  // Clean up trailing semicolons left after replacement
   code = code.replace(
-    /\/\/ \[STRIPPED\] useQuery replaced with props\n\/\/ .*$/gm,
+    /\/\/ \[STRIPPED\] useQuery — data now comes from props\s*;/g,
     "// [STRIPPED] useQuery — data now comes from props"
   );
 
   // =========================================================================
-  // STEP 3: Handle useMutation calls
+  // STEP 2b: Handle `return useQuery(...)` — direct return pattern
+  // =========================================================================
+
+  code = replaceWithBalancedParens(
+    code,
+    /return\s+useQuery(?:<[^>]+>)?\s*\(/g,
+    () => `return ${MOCK_QUERY_RETURN}`
+  );
+  // Clean up trailing semicolons (the balanced replacement eats the closing paren but not the semicolon)
+  code = code.replace(
+    new RegExp(`return ${escapeRegExp(MOCK_QUERY_RETURN)}\\s*;?`, "g"),
+    `return ${MOCK_QUERY_RETURN};`
+  );
+
+  // =========================================================================
+  // STEP 2c: Handle arrow fn implicit return: `=> useQuery(...)`
+  // =========================================================================
+
+  code = replaceWithBalancedParens(
+    code,
+    /=>\s*\n?\s*useQuery(?:<[^>]+>)?\s*\(/g,
+    () => `=> (${MOCK_QUERY_RETURN})`
+  );
+
+  // =========================================================================
+  // STEP 3: Handle useMutation calls — const X = useMutation(...)
   // =========================================================================
 
   // Pattern: const mutationVar = useMutation({...})
@@ -361,6 +523,30 @@ export function stripApiFromFile(
   }
 
   // =========================================================================
+  // STEP 3b: Handle `return useMutation(...)` — direct return pattern
+  // =========================================================================
+
+  code = replaceWithBalancedParens(
+    code,
+    /return\s+useMutation(?:<[^>]+>)?\s*\(/g,
+    () => `return ${MOCK_MUTATION_RETURN}`
+  );
+  code = code.replace(
+    new RegExp(`return ${escapeRegExp(MOCK_MUTATION_RETURN)}\\s*;?`, "g"),
+    `return ${MOCK_MUTATION_RETURN};`
+  );
+
+  // =========================================================================
+  // STEP 3c: Handle arrow fn implicit return: `=> useMutation(...)`
+  // =========================================================================
+
+  code = replaceWithBalancedParens(
+    code,
+    /=>\s*\n?\s*useMutation(?:<[^>]+>)?\s*\(/g,
+    () => `=> (${MOCK_MUTATION_RETURN})`
+  );
+
+  // =========================================================================
   // STEP 4: Handle useAuth() / useAuthStore() calls
   // =========================================================================
 
@@ -432,14 +618,26 @@ export function stripApiFromFile(
   );
 
   // Remove any remaining queryClient.invalidateQueries(...) calls
+  // Use balanced parens for nested arguments
+  code = replaceWithBalancedParens(
+    code,
+    /\w+\.invalidateQueries\s*\(/g,
+    () => "// [STRIPPED] cache invalidation removed"
+  );
+  // Clean up trailing semicolons
   code = code.replace(
-    /\w+\.invalidateQueries\s*\([^)]*\)\s*;?/g,
+    /\/\/ \[STRIPPED\] cache invalidation removed\s*;/g,
     "// [STRIPPED] cache invalidation removed"
   );
 
   // Remove await queryClient... patterns
+  code = replaceWithBalancedParens(
+    code,
+    /await\s+\w+\.(?:invalidateQueries|refetchQueries|setQueryData|removeQueries)\s*\(/g,
+    () => "// [STRIPPED] query cache operation removed"
+  );
   code = code.replace(
-    /await\s+\w+\.(?:invalidateQueries|refetchQueries|setQueryData|removeQueries)\s*\([^)]*\)\s*;?/g,
+    /\/\/ \[STRIPPED\] query cache operation removed\s*;/g,
     "// [STRIPPED] query cache operation removed"
   );
 
@@ -484,17 +682,51 @@ export function stripApiFromFile(
   // =========================================================================
 
   // Remove any remaining standalone import-like references: api.get, api.post, etc.
-  const apiVarNames = ["api", "universalApi", "c56Api", "paymentApi"];
+  // Use balanced paren matching to handle nested arguments correctly
+  const apiVarNames = ["api", "universalApi", "c56Api", "paymentApi", "affiliateApi"];
   for (const apiVar of apiVarNames) {
     if (removedImportSpecifiers.includes(apiVar)) {
-      const apiCallRegex = new RegExp(
-        `(?:await\\s+)?${apiVar}\\.(?:get|post|put|patch|delete|request)\\s*(?:<[^>]*>)?\\s*\\([^)]*\\)`,
-        "g"
+      // Use balanced paren matching for API calls
+      code = replaceWithBalancedParens(
+        code,
+        new RegExp(
+          `(?:await\\s+)?${apiVar}\\.(?:get|post|put|patch|delete|request)\\s*(?:<[^>]*>)?\\s*\\(`,
+          "g"
+        ),
+        (fullMatch) => {
+          return `/* [STRIPPED] ${apiVar} call */ undefined`;
+        }
       );
-      code = code.replace(apiCallRegex, (match) => {
-        warnings.push(`Direct API call detected: ${match.slice(0, 60)}...`);
-        return `/* TODO: Manual review needed — ${apiVar} call stripped */ undefined`;
-      });
+    }
+  }
+
+  // =========================================================================
+  // STEP 7b: Handle standalone function calls to removed imports
+  // =========================================================================
+
+  // For functions imported from blocked sources (e.g. createTheme, getTheme),
+  // replace their calls with no-ops when they appear as standalone expressions
+  // or inside arrow functions
+  for (const specifier of removedImportSpecifiers) {
+    // Skip common identifiers that are too generic to safely replace
+    if (["default", "type", "React"].includes(specifier)) continue;
+    // Skip identifiers that look like types (PascalCase ending in Payload, Response, etc.)
+    if (/^[A-Z].*(?:Payload|Response|Params|Type|Interface|Props|Config)$/.test(specifier)) continue;
+
+    // Replace direct calls: specifier(...) when used as expression statement
+    // Be careful not to replace if it's part of a longer identifier
+    const callRegex = new RegExp(
+      `(?<=^|[^\\w.])${escapeRegExp(specifier)}\\s*\\(`,
+      "gm"
+    );
+
+    // Only replace if it appears to be a function call (not a type reference)
+    if (callRegex.test(code)) {
+      code = replaceWithBalancedParens(
+        code,
+        new RegExp(`(?<![\\w.])${escapeRegExp(specifier)}\\s*\\(`, "g"),
+        () => `/* [STRIPPED] ${specifier} call */ ((() => undefined) as any)()`
+      );
     }
   }
 
@@ -547,22 +779,21 @@ export function stripApiFromFile(
     { pattern: /useAuth\s*\(/g, label: "useAuth" },
     { pattern: /useAuthStore\s*\(/g, label: "useAuthStore" },
     { pattern: /uploadToImageKit/g, label: "uploadToImageKit" },
-    { pattern: /mutateAsync/g, label: "mutateAsync" },
+    { pattern: /(?<![.\w])mutateAsync\s*\(/g, label: "mutateAsync" },
   ];
 
   for (const { pattern, label } of remainingPatterns) {
-    const matches = code.match(pattern);
-    if (matches) {
-      // Filter out matches inside comments
-      for (const m of matches) {
-        const idx = code.indexOf(m);
-        const lineStart = code.lastIndexOf("\n", idx) + 1;
-        const line = code.slice(lineStart, idx);
-        if (!line.includes("//") && !line.includes("/*") && !line.includes("STRIPPED")) {
-          warnings.push(
-            `Remaining ${label} usage detected — may need manual review`
-          );
-        }
+    // Need to reset the regex for each scan
+    pattern.lastIndex = 0;
+    let match: RegExpExecArray | null;
+    while ((match = pattern.exec(code)) !== null) {
+      const idx = match.index;
+      const lineStart = code.lastIndexOf("\n", idx) + 1;
+      const line = code.slice(lineStart, idx);
+      if (!line.includes("//") && !line.includes("/*") && !line.includes("STRIPPED")) {
+        warnings.push(
+          `Remaining ${label} usage detected — may need manual review`
+        );
       }
     }
   }
@@ -580,6 +811,14 @@ export function stripApiFromFile(
   );
 
   return { transformed: code, mockFile, warnings };
+}
+
+// ---------------------------------------------------------------------------
+// Helper: escape string for use in RegExp
+// ---------------------------------------------------------------------------
+
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // ---------------------------------------------------------------------------

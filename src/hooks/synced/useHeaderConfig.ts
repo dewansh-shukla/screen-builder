@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/useHeaderConfig.ts
-// Last synced: 2026-03-17T11:05:34.442Z
+// Last synced: 2026-03-17T11:17:27.034Z
 // API integrations stripped. Use props for data and callbacks.
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';

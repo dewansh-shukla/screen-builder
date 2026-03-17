@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/GifterCard.tsx
-// Last synced: 2026-03-17T11:05:34.409Z
+// Last synced: 2026-03-17T11:17:26.994Z
 // API integrations stripped. Use props for data and callbacks.
 import Image from 'next/image';
 import { GiftCardTemplate } from '@/types/cards';

@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/QuickInviteModal.tsx
-// Last synced: 2026-03-17T11:05:34.421Z
+// Last synced: 2026-03-17T11:17:27.009Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 
@@ -68,7 +68,7 @@ export const QuickInviteModal: React.FC<QuickInviteModalProps> = ({
   onClose,
 }) => {
   const router = useRouter();
-  const { setEventTypeId, setEventId } = useEventStore();
+  const { setEventTypeId, setEventId } = /* [STRIPPED] useEventStore call */ ((() => undefined) as any)();
 
   const handleOccasionClick = (occasion: OccasionOption) => {
     // Clear any existing eventId to ensure we create a new event

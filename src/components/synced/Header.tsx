@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/Header.tsx
-// Last synced: 2026-03-17T11:05:34.412Z
+// Last synced: 2026-03-17T11:17:26.998Z
 // API integrations stripped. Use props for data and callbacks.
 // components/Header.tsx
 'use client';

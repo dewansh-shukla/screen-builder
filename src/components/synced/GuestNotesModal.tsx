@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/GuestNotesModal.tsx
-// Last synced: 2026-03-17T11:05:34.410Z
+// Last synced: 2026-03-17T11:17:26.996Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 /*
@@ -32,6 +32,7 @@ import { TextEditor } from '@/components/base/text-editor/text-editor';
 // [STRIPPED] import { updateEvent, UpdateEventPayload } from '@/app/(events-and-wedding)/(events)/services/eventApi';
 // [STRIPPED] import { useToast } from '@/hooks/use-toast';
 // [STRIPPED] import { useAuth } from '@/hooks/useAuth';
+// [STRIPPED] 
 interface GuestNotesModalProps {
   open: boolean;
   onClose: () => void;

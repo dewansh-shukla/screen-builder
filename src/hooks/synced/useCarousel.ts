@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/useCarousel.ts
-// Last synced: 2026-03-17T11:05:34.440Z
+// Last synced: 2026-03-17T11:17:27.033Z
 // API integrations stripped. Use props for data and callbacks.
 import { useState, useCallback } from 'react';
 import type { CarouselApi } from '@/components/ui/carousel';

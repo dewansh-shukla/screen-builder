@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/InfiniteScroll.tsx
-// Last synced: 2026-03-17T11:05:34.414Z
+// Last synced: 2026-03-17T11:17:27.000Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 import { useEffect, useRef, ReactNode } from 'react';

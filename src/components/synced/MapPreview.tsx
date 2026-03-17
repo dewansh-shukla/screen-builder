@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/MapPreview.tsx
-// Last synced: 2026-03-17T11:05:34.418Z
+// Last synced: 2026-03-17T11:17:27.005Z
 // API integrations stripped. Use props for data and callbacks.
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import { LinkExternal01 } from '@untitledui/icons';

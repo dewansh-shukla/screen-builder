@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/ImageZoomDialog.tsx
-// Last synced: 2026-03-17T11:05:34.413Z
+// Last synced: 2026-03-17T11:17:27.000Z
 // API integrations stripped. Use props for data and callbacks.
 import { useState } from 'react';
 import Image from 'next/image';
