@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/AddGuestManuallyModal.tsx
-// Last synced: 2026-03-17T11:05:34.395Z
+// Last synced: 2026-03-17T11:17:26.977Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 /*
@@ -33,6 +33,7 @@ import { Toaster } from '@/components/application/notifications/toaster';
 // [STRIPPED] import { AxiosError } from 'axios';
 // [STRIPPED] import { universalApi } from '@/lib/universal';
 // [STRIPPED] import { useAuthStore } from '@/store/useAuthStore';
+// [STRIPPED] 
 interface AddGuestManuallyModalProps {
   open: boolean;
   onClose: () => void;

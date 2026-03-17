@@ -1,9 +1,10 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/useCommerce.ts
-// Last synced: 2026-03-17T11:05:34.441Z
+// Last synced: 2026-03-17T11:17:27.034Z
 // API integrations stripped. Use props for data and callbacks.
 // [STRIPPED] import { useQuery } from '@tanstack/react-query';
 // [STRIPPED] import { universalApi } from '@/lib/universal';
+// [STRIPPED] 
 // ============== Types ==============
 export interface CommerceCollection {
   id: string;
@@ -51,16 +52,7 @@ export function useCommerceCollections({
   offset?: number;
   enabled?: boolean;
 }) {
-  return useQuery({
-    queryKey: ['commerce-collections', shopId, limit, offset],
-    enabled: Boolean(shopId) && enabled,
-    queryFn: async () => {
-      const params = { shopId, limit, offset } as const;
-      const { data } = /* TODO: Manual review needed — universalApi call stripped */ undefined;
-      return data.collections;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 }
 
 export function useCollectionProducts({
@@ -76,17 +68,7 @@ export function useCollectionProducts({
   search?: string | null;
   enabled?: boolean;
 }) {
-  return useQuery({
-    queryKey: ['collection-products', collectionId, limit, offset, search],
-    enabled: Boolean(collectionId) && enabled,
-    queryFn: async () => {
-      const params: Record<string, string | number> = { limit, offset };
-      if (search) params.search = search;
-      const { data } = /* TODO: Manual review needed — universalApi call stripped */ undefined;
-      return data.products;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 }
 
 

@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/LocationDetailsModal.tsx
-// Last synced: 2026-03-17T11:05:34.417Z
+// Last synced: 2026-03-17T11:17:27.004Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 
@@ -10,6 +10,7 @@ import { Button } from '@/components/base/buttons/button';
 import { LocationAutocomplete } from '@/components/LocationAutocomplete';
 import { TextEditor } from '@/components/base/text-editor/text-editor';
 // [STRIPPED] import { fetchEventById } from '@/app/(events-and-wedding)/(events)/services/eventApi';
+// [STRIPPED] 
 interface LocationDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -71,7 +72,7 @@ export const LocationDetailsModal = ({
 
       setIsLoading(true);
       try {
-        const response = await fetchEventById(eventId);
+        const response = await /* [STRIPPED] fetchEventById call */ ((() => undefined) as any)();
         const event = response.event;
 
         // Pre-populate venue type from venue_name field

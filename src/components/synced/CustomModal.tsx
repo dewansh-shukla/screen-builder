@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/CustomModal.tsx
-// Last synced: 2026-03-17T11:05:34.400Z
+// Last synced: 2026-03-17T11:17:26.982Z
 // API integrations stripped. Use props for data and callbacks.
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';

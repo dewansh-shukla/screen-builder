@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/home/FeaturedEventsSection.tsx
-// Last synced: 2026-03-17T11:05:34.428Z
+// Last synced: 2026-03-17T11:17:27.017Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 

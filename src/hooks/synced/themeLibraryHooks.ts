@@ -1,45 +1,45 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/themeLibraryHooks.ts
-// Last synced: 2026-03-17T11:05:34.438Z
+// Last synced: 2026-03-17T11:17:27.031Z
 // API integrations stripped. Use props for data and callbacks.
 // src/hooks/themeLibraryHooks.ts
 // Theme Library API Contract V2 — React Query Hooks
 
 // [STRIPPED] import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  // Theme CRUD
-  createTheme,
-  getTheme,
-  listThemes,
-  updateTheme,
-  deleteTheme,
-  // Library CRUD
-  createLibrary,
-  getLibrary,
-  listLibraries,
-  updateLibrary,
-  // Associations
-  createAssociation,
-  setDefaultAssociation,
-  deleteAssociation,
-  // Library ↔ User/Org
-  createLibraryObject,
-  getUserLibraries,
-  deleteLibraryObject,
-  // Favourites & Usage
-  toggleFavourite,
-  getUserFavourites,
-  markThemeUsed,
-  getUserRecent,
-  // Convenience
-  getUserDefault,
-  setupDefault,
-  copyTheme,
-  removeBanner,
-  // Color extraction
-  extractColors,
-} from '@/lib/themeLibraryService';
-
+// [STRIPPED] import {
+// [STRIPPED]   // Theme CRUD
+// [STRIPPED]   createTheme,
+// [STRIPPED]   getTheme,
+// [STRIPPED]   listThemes,
+// [STRIPPED]   updateTheme,
+// [STRIPPED]   deleteTheme,
+// [STRIPPED]   // Library CRUD
+// [STRIPPED]   createLibrary,
+// [STRIPPED]   getLibrary,
+// [STRIPPED]   listLibraries,
+// [STRIPPED]   updateLibrary,
+// [STRIPPED]   // Associations
+// [STRIPPED]   createAssociation,
+// [STRIPPED]   setDefaultAssociation,
+// [STRIPPED]   deleteAssociation,
+// [STRIPPED]   // Library ↔ User/Org
+// [STRIPPED]   createLibraryObject,
+// [STRIPPED]   getUserLibraries,
+// [STRIPPED]   deleteLibraryObject,
+// [STRIPPED]   // Favourites & Usage
+// [STRIPPED]   toggleFavourite,
+// [STRIPPED]   getUserFavourites,
+// [STRIPPED]   markThemeUsed,
+// [STRIPPED]   getUserRecent,
+// [STRIPPED]   // Convenience
+// [STRIPPED]   getUserDefault,
+// [STRIPPED]   setupDefault,
+// [STRIPPED]   copyTheme,
+// [STRIPPED]   removeBanner,
+// [STRIPPED]   // Color extraction
+// [STRIPPED]   extractColors,
+// [STRIPPED] } from '@/lib/themeLibraryService';
+// [STRIPPED] 
 import type {
   CreateThemePayload,
   UpdateThemePayload,
@@ -58,247 +58,129 @@ import type {
 
 export const useCreateTheme = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: CreateThemePayload) => createTheme(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useTheme = (themeId?: string) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'theme', themeId],
-    queryFn: () => getTheme(themeId!),
-    enabled: Boolean(themeId),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useThemes = (
   params?: { creator_type?: string; created_by?: string; limit?: number; offset?: number },
 ) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'themes', params],
-    queryFn: () => listThemes(params || {}),
-    enabled: params !== undefined,
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useUpdateTheme = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: ({ themeId, payload }: { themeId: string; payload: UpdateThemePayload }) =>
-      updateTheme(themeId, payload),
-    onSuccess: (_data, variables) => {
-      // [STRIPPED] cache invalidation removed
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useDeleteTheme = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (themeId: string) => deleteTheme(themeId),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 // ─── Library CRUD Hooks ─────────────────────────────────────────────────────
 
 export const useCreateLibrary = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: CreateLibraryPayload) => createLibrary(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useLibrary = (libraryId?: string) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'library', libraryId],
-    queryFn: () => getLibrary(libraryId!),
-    enabled: Boolean(libraryId),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useLibraries = (
   params?: { created_by?: string; is_public?: boolean; limit?: number; offset?: number },
 ) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'libraries', params],
-    queryFn: () => listLibraries(params || {}),
-    enabled: params !== undefined,
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useUpdateLibrary = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: ({ libraryId, payload }: { libraryId: string; payload: UpdateLibraryPayload }) =>
-      updateLibrary(libraryId, payload),
-    onSuccess: (_data, variables) => {
-      // [STRIPPED] cache invalidation removed
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 // ─── Association Hooks ──────────────────────────────────────────────────────
 
 export const useCreateAssociation = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: CreateAssociationPayload) => createAssociation(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useSetDefaultAssociation = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (assocId: string) => setDefaultAssociation(assocId),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useDeleteAssociation = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (assocId: string) => deleteAssociation(assocId),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 // ─── Library ↔ User/Org Hooks ───────────────────────────────────────────────
 
 export const useCreateLibraryObject = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: CreateLibraryObjectPayload) => createLibraryObject(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useUserLibraries = (userId?: string) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'userLibraries', userId],
-    queryFn: () => getUserLibraries(userId!),
-    enabled: Boolean(userId),
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useDeleteLibraryObject = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (assocId: string) => deleteLibraryObject(assocId),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 // ─── Favourites & Usage Hooks ───────────────────────────────────────────────
 
 export const useToggleFavourite = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: ToggleFavouritePayload) => toggleFavourite(payload),
-    onSuccess: (_data, variables) => {
-      // [STRIPPED] cache invalidation removed
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useUserFavourites = (
   userId?: string,
   params?: { limit?: number; offset?: number },
 ) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'favourites', userId, params],
-    queryFn: () => getUserFavourites(userId!, params),
-    enabled: Boolean(userId),
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useMarkThemeUsed = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: MarkUsedPayload) => markThemeUsed(payload),
-    onSuccess: (_data, variables) => {
-      // [STRIPPED] cache invalidation removed
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useUserRecent = (
   userId?: string,
   params?: { limit?: number },
 ) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'recent', userId, params],
-    queryFn: () => getUserRecent(userId!, params),
-    enabled: Boolean(userId),
-    staleTime: 1000 * 60 * 5,
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 // ─── Convenience / Flow Hooks ───────────────────────────────────────────────
 
 export const useUserDefault = (userId?: string) => {
-  return useQuery({
-    queryKey: ['themeLibrary', 'default', userId],
-    queryFn: () => getUserDefault(userId!),
-    enabled: Boolean(userId),
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 export const useSetupDefault = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (userId: string) => setupDefault(userId),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useCopyTheme = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: CopyThemePayload) => copyTheme(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 export const useRemoveBanner = () => {
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: RemoveBannerPayload) => removeBanner(payload),
-    onSuccess: () => {
-      // [STRIPPED] cache invalidation removed
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };
 
 // ─── Color Extraction Hook ─────────────────────────────────────────────────
@@ -306,10 +188,5 @@ export const useRemoveBanner = () => {
 export const useExtractColors = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
-  return useMutation({
-    mutationFn: (payload: ExtractColorsPayload) => extractColors(payload),
-    onSuccess: () => {
-      // Color extraction results are not cached queries to invalidate
-    },
-  });
+  return { mutate: () => {}, mutateAsync: async () => ({} as any), isPending: false, isLoading: false, error: null, reset: () => {}, isSuccess: false, isError: false, data: undefined, status: 'idle' as const };
 };

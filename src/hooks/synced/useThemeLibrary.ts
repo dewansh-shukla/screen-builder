@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/useThemeLibrary.ts
-// Last synced: 2026-03-17T11:05:34.444Z
+// Last synced: 2026-03-17T11:17:27.037Z
 // API integrations stripped. Use props for data and callbacks.
 import { useState, useMemo } from 'react';
 // [STRIPPED] import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,13 +11,14 @@ import { useRouter } from 'next/navigation';
 // [STRIPPED] import { updateEvent } from '@/app/(events-and-wedding)/(events)/services/eventApi';
 // [STRIPPED] import { useEventStore } from '@/app/(events-and-wedding)/(events)/store/useEventStore';
 // [STRIPPED] import { Theme, ThemeResponse } from '@/app/(events-and-wedding)/(events)/manage-event/[eventId]/theme-library/types';
+// [STRIPPED] 
 export function useThemeLibrary(eventId: string) {
   const router = useRouter();
   // [STRIPPED] useToast — replaced with console.log
 const toast = (...args: any[]) => console.log('[Toast]', ...args);
   // [STRIPPED] useQueryClient removed — no cache invalidation in mockup
   // [STRIPPED] useAuth/useAuthStore — values now come from props
-  const { eventTypeId } = useEventStore();
+  const { eventTypeId } = /* [STRIPPED] useEventStore call */ ((() => undefined) as any)();
 /*
  * ============================================================
  * EXTRACTED PROPS (added by api-stripper)
@@ -47,10 +48,6 @@ const toast = (...args: any[]) => console.log('[Toast]', ...args);
 
   // Fetch themes
   // [STRIPPED] useQuery — data now comes from props
-      return response.data;
-    },
-    enabled: !!eventTypeId,
-  });
 
   // Fetch current event to get current theme
   // [STRIPPED] useQuery — data now comes from props

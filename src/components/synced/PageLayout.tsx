@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/PageLayout.tsx
-// Last synced: 2026-03-17T11:05:34.419Z
+// Last synced: 2026-03-17T11:17:27.007Z
 // API integrations stripped. Use props for data and callbacks.
 // components/PageLayout.tsx
 /* eslint-disable react-hooks/exhaustive-deps */

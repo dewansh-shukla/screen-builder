@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/ThemeDetailsModal.tsx
-// Last synced: 2026-03-17T11:05:34.423Z
+// Last synced: 2026-03-17T11:17:27.012Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 
@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { XClose, Star06, Edit02, Copy01, Trash01 } from '@untitledui/icons';
 import { useRouter } from 'next/navigation';
 // [STRIPPED] import { Theme } from '@/app/(events-and-wedding)/(events)/manage-event/[eventId]/theme-library/types';
+// [STRIPPED] 
 type ModalContext = 'favourites' | 'my-themes' | 'shared' | 'default';
 
 // Type that extends Theme to support optional image_url (used as fallback from ThemeLibraryEntry)

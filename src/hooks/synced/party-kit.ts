@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/hooks/party-kit.ts
-// Last synced: 2026-03-17T11:05:34.438Z
+// Last synced: 2026-03-17T11:17:27.028Z
 // API integrations stripped. Use props for data and callbacks.
 // [STRIPPED] import { useQuery } from '@tanstack/react-query';
 // [STRIPPED] import { affiliateApi } from '@/lib/affiliate-api';
@@ -21,36 +21,23 @@ export const fetchPartyKits = async (
   if (params?.status) search.set('status', params.status);
   
   const qs = search.toString();
-  const { data } = await affiliateApi.get<PartyKitListResponse>(
-    `/admin/party-kits${qs ? `?${qs}` : ''}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const usePartyKits = (params?: PartyKitListQueryParams) => {
-  return useQuery({
-    queryKey: ['party-kits', params?.q ?? null, params?.limit ?? 50, params?.offset ?? 0],
-    queryFn: () => fetchPartyKits(params),
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 
 // Fetch single party kit
 export const fetchPartyKitById = async (
   id: string,
 ): Promise<PartyKit> => {
-  const { data } = await affiliateApi.get<PartyKit>(
-    `/admin/party-kits/${id}`,
-  );
+  const { data } = /* [STRIPPED] affiliateApi call */ undefined;
   return data;
 };
 
 export const usePartyKitById = (id: string) => {
-  return useQuery({
-    queryKey: ['party-kit', id],
-    queryFn: () => fetchPartyKitById(id),
-    enabled: !!id,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  return { data: undefined, isLoading: false, isFetching: false, error: null, refetch: () => Promise.resolve({} as any), isSuccess: false, isError: false, status: 'idle' as const };
 };
 

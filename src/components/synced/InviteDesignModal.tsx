@@ -1,6 +1,6 @@
 // AUTO-SYNCED from zapigowebclient — DO NOT EDIT DIRECTLY
 // Source: /Users/dewanshshukla/Desktop/zapigo/zapigowebclient/src/components/InviteDesignModal.tsx
-// Last synced: 2026-03-17T11:05:34.415Z
+// Last synced: 2026-03-17T11:17:27.002Z
 // API integrations stripped. Use props for data and callbacks.
 'use client';
 /*
@@ -31,6 +31,7 @@ import { Button } from '@/components/base/buttons/button';
 // [STRIPPED] import { updateEvent, UpdateEventPayload } from '@/app/(events-and-wedding)/(events)/services/eventApi';
 // [STRIPPED] import { useToast } from '@/hooks/use-toast';
 // [STRIPPED] import { useAuth } from '@/hooks/useAuth';
+// [STRIPPED] 
 interface InviteDesignModalProps {
   open: boolean;
   onClose: () => void;
