@@ -1,7 +1,9 @@
 @theme {
     /* FONT FAMILY */
-    --font-body: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    --font-display: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-body: var(--font-lexend, "Lexend"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-display: var(--font-lexend, "Lexend"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-lexend: "Lexend", sans-serif;
+    --font-dm-sans: "DM Sans", sans-serif;
     --font-mono: ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
     /* FONT SIZE */
@@ -728,6 +730,7 @@
     --color-fg-brand-secondary_hover: var(--color-brand-600);
 
     /* BACKGROUND COLORS */
+    --color-bg-app: #ffcc1d;
     --color-bg-primary: var(--color-white);
     --color-bg-primary-solid: var(--color-gray-950);
     --color-bg-primary_alt: var(--color-white);
