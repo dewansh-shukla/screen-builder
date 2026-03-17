@@ -149,13 +149,13 @@ export default function CommunityHome() {
 
               {/* Selected event detail */}
               {selectedEvent && (
-                <div className="rounded-lg border border-secondary bg-secondary p-4 shadow-xs transition duration-100 ease-linear">
+                <div className="rounded-xl border border-brand bg-brand-primary p-4 shadow-xs transition duration-100 ease-linear">
                   <div className="flex items-start justify-between">
                     <div className="flex flex-col gap-1">
-                      <h3 className="font-lexend text-md font-semibold text-primary">
+                      <h3 className="font-lexend text-md font-semibold text-brand-tertiary">
                         {selectedEvent.title}
                       </h3>
-                      <p className="font-lexend text-sm text-tertiary">
+                      <p className="font-lexend text-sm text-brand-secondary">
                         {selectedEvent.date.toString()} &middot; {selectedEvent.attendees} attendees
                       </p>
                     </div>
@@ -178,17 +178,17 @@ export default function CommunityHome() {
                 {pastEvents.map((event) => (
                   <button
                     key={event.id}
-                    className="flex items-center gap-3 rounded-lg border border-secondary bg-primary p-4 text-left shadow-xs transition duration-100 ease-linear hover:bg-primary_hover"
+                    className="flex items-center gap-3 rounded-xl border border-brand bg-brand-primary p-4 text-left shadow-xs transition duration-100 ease-linear hover:bg-brand-primary_alt"
                     onClick={() => setSelectedDate(event.date)}
                   >
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-secondary">
                       <CalendarIcon className="size-5 text-fg-brand-primary" />
                     </div>
                     <div className="flex flex-1 flex-col gap-0.5">
-                      <span className="font-lexend text-sm font-medium text-primary">
+                      <span className="font-lexend text-sm font-medium text-brand-tertiary">
                         {event.title}
                       </span>
-                      <span className="font-lexend text-xs text-tertiary">
+                      <span className="font-lexend text-xs text-brand-secondary">
                         {event.date.toString()} &middot; {event.attendees} attendees
                       </span>
                     </div>
