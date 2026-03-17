@@ -108,18 +108,30 @@ export default function ScreenName() {
 - Make screens responsive (mobile-first with sm/md/lg breakpoints)
 
 ### Screen wrapper pattern
-Every screen should follow this layout:
+Every screen MUST use the `PageWrapper` component — this matches how pages are built in the main app:
 ```tsx
+import { PageWrapper } from '@/components/synced/PageWrapper'
+
 export default function ScreenName() {
   return (
-    <div className="min-h-dvh bg-primary">
-      {/* Optional: page header */}
+    <PageWrapper showHeader={true} showFooter={false}>
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {/* Screen content */}
       </div>
-    </div>
+    </PageWrapper>
   )
 }
+```
+
+**PageWrapper props:**
+- `showHeader` / `showFooter` — toggle header/footer visibility (default: both true)
+- `headerProps` — customize header: `{ showBackButtonOnly, headerText, variant, logoColor, rightElements }`
+- `maxDesktopWidth` — responsive width: `'448px'` (mobile, default) or `'1440px'` (desktop)
+- `backgroundColor` / `backgroundImage` — visual styling
+
+For admin/dashboard screens, use wider layout:
+```tsx
+<PageWrapper showHeader={true} showFooter={false} maxDesktopWidth="1440px">
 ```
 
 ### Known gotchas

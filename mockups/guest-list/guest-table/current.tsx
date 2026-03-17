@@ -10,6 +10,7 @@ import { Avatar } from '@/components/base/avatar/avatar'
 import { Table, TableCard } from '@/components/application/table/table'
 import { PaginationPageDefault } from '@/components/application/pagination/pagination'
 import { Dropdown } from '@/components/base/dropdown/dropdown'
+import { PageWrapper } from '@/components/synced/PageWrapper'
 
 const guests = [
     { id: '1', name: 'Olivia Rhye', email: 'olivia@untitledui.com', rsvp: 'confirmed', avatar: '', initials: 'OR', plusOnes: 2, table: 'Table 1' },
@@ -58,7 +59,7 @@ export default function GuestTable() {
     const declinedCount = guests.filter((g) => g.rsvp === 'declined').length
 
     return (
-        <div className="min-h-dvh bg-primary">
+        <PageWrapper showHeader={true} showFooter={false} maxDesktopWidth="1440px">
             {/* Page header */}
             <div className="border-b border-secondary">
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
@@ -188,6 +189,6 @@ export default function GuestTable() {
                     <PaginationPageDefault page={page} total={3} onPageChange={setPage} />
                 </div>
             </div>
-        </div>
+        </PageWrapper>
     )
 }

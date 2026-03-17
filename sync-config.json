@@ -9,7 +9,8 @@
       "src/components/product/**",
       "src/components/shared/**",
       "src/components/icons/**",
-      "src/components/ui/**"
+      "src/components/ui/**",
+      "src/components/WaveBorder/**"
     ],
     "exclude": [
       "src/components/base/**",
@@ -23,6 +24,38 @@
       "src/components/ScrollPreservation.tsx"
     ]
   },
+  "appComponents": {
+    "include": [
+      "src/app/(events-and-wedding)/(events)/components/**",
+      "src/app/(events-and-wedding)/(events)/event-theme/components/**",
+      "src/app/(events-and-wedding)/(events)/event/[eventId]/components/**",
+      "src/app/(events-and-wedding)/(events)/event/[eventId]/details/components/**",
+      "src/app/(events-and-wedding)/(events)/event/[eventId]/guest-list/components/**",
+      "src/app/(events-and-wedding)/(events)/event/[eventId]/guest-list/utils/**",
+      "src/app/(events-and-wedding)/(events)/manage-event/[eventId]/components/**",
+      "src/app/(events-and-wedding)/(events)/manage-event/[eventId]/edit-occasion/components/**",
+      "src/app/(events-and-wedding)/(events)/manage-event/[eventId]/additional-settings/components/**",
+      "src/app/(events-and-wedding)/(events)/manage-event/[eventId]/theme-library/components/**",
+      "src/app/(events-and-wedding)/(wedding)/gather/birthday/components/**",
+      "src/app/(events-and-wedding)/(wedding)/types/**",
+      "src/app/me/attending/[eventId]/components/**",
+      "src/app/me/components/**",
+      "src/app/home/components/**",
+      "src/app/blogs/components/**",
+      "src/app/(affiliate)/serve/**",
+      "src/app/pop-up-studios/**",
+      "src/app/c/kapilaart/**"
+    ],
+    "exclude": [
+      "**/page.tsx",
+      "**/page.draft.tsx",
+      "**/layout.tsx",
+      "**/loading.tsx",
+      "**/error.tsx",
+      "**/not-found.tsx",
+      "**/*.md"
+    ]
+  },
   "hooks": {
     "include": [
       "src/hooks/**"
@@ -32,9 +65,25 @@
       "src/hooks/gallery/**"
     ]
   },
+  "supporting": {
+    "include": [
+      "src/types/**",
+      "src/constants/**",
+      "src/utils/**",
+      "src/contexts/**"
+    ],
+    "exclude": [
+      "src/contexts/LoginModalContext.tsx"
+    ]
+  },
   "targetMapping": {
     "src/components": "src/components/synced",
-    "src/hooks": "src/hooks/synced"
+    "src/hooks": "src/hooks/synced",
+    "src/app": "src/app-components/synced",
+    "src/types": "src/types/synced",
+    "src/constants": "src/constants/synced",
+    "src/utils": "src/utils/synced",
+    "src/contexts": "src/contexts/synced"
   },
   "apiPatterns": [
     "@tanstack/react-query",
@@ -49,6 +98,7 @@
     "@/hooks/useAuth",
     "@/hooks/gallery",
     "@/store/useAuthStore",
+    "@/store/",
     "@/services/",
     "@/app/(events-and-wedding)",
     "sonner",
@@ -56,6 +106,7 @@
   ],
   "importRemaps": {
     "@/components/base/": "@/components/base/",
-    "@/components/application/": "@/components/application/"
+    "@/components/application/": "@/components/application/",
+    "@/components/foundations/": "@/components/foundations/"
   }
 }

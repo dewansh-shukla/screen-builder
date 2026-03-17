@@ -102,7 +102,9 @@ export function Header({
   const pathname = usePathname();
   const isScanPath = pathname === '/scan';
   const { openLoginModal } = useLoginModal();
-  // [STRIPPED] useAuth/useAuthStore — values now come from props
+  // [STRIPPED] useAuth/useAuthStore — stubbed for screen-builder
+  const isAuthenticated = false;
+  const userData: { display_name?: string } | null = null;
   const homeUrl = useSessionStore(state => state.homeUrl);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(true);

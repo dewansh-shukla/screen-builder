@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { RouteProvider } from "@/providers/router-provider";
 import { Theme } from "@/providers/theme";
 import "@/styles/globals.css";
+import { LoginModalProvider } from "@/contexts/LoginModalContext";
 import { cx } from "@/utils/cx";
 
 const inter = Inter({
@@ -30,7 +31,9 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={cx(inter.variable, "bg-primary antialiased")}>
                 <RouteProvider>
-                    <Theme>{children}</Theme>
+                    <Theme>
+                        <LoginModalProvider>{children}</LoginModalProvider>
+                    </Theme>
                 </RouteProvider>
             </body>
         </html>

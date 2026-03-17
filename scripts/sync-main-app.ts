@@ -64,11 +64,18 @@ function logDim(msg: string) {
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
+interface FileGroup {
+  include: string[];
+  exclude: string[];
+}
+
 interface SyncConfig {
   sourceRepo: string;
   sourcePath: string;
-  components: { include: string[]; exclude: string[] };
-  hooks: { include: string[]; exclude: string[] };
+  components: FileGroup;
+  appComponents?: FileGroup;
+  hooks: FileGroup;
+  supporting?: FileGroup;
   targetMapping: Record<string, string>;
   apiPatterns: string[];
   importRemaps?: Record<string, string>;
@@ -229,17 +236,34 @@ function discoverFiles(
 
 function discoverAllFiles(config: SyncConfig): string[] {
   const { sourcePath } = config;
-  const componentFiles = discoverFiles(
-    sourcePath,
-    config.components.include,
-    config.components.exclude
+  const allFiles: string[] = [];
+
+  // Core components (src/components/)
+  allFiles.push(
+    ...discoverFiles(sourcePath, config.components.include, config.components.exclude)
   );
-  const hookFiles = discoverFiles(
-    sourcePath,
-    config.hooks.include,
-    config.hooks.exclude
+
+  // App-level components (src/app/**/components/)
+  if (config.appComponents) {
+    allFiles.push(
+      ...discoverFiles(sourcePath, config.appComponents.include, config.appComponents.exclude)
+    );
+  }
+
+  // Hooks (src/hooks/)
+  allFiles.push(
+    ...discoverFiles(sourcePath, config.hooks.include, config.hooks.exclude)
   );
-  return [...componentFiles, ...hookFiles];
+
+  // Supporting files (types, constants, utils, contexts)
+  if (config.supporting) {
+    allFiles.push(
+      ...discoverFiles(sourcePath, config.supporting.include, config.supporting.exclude)
+    );
+  }
+
+  // Deduplicate and sort
+  return [...new Set(allFiles)].sort();
 }
 
 // ---------------------------------------------------------------------------

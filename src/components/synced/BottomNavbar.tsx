@@ -7,10 +7,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import greetImage from '../../public/assets/images/greetImage.svg';
-import giftImage from '../../public/assets/images/giftImage.svg';
-import gatherImage from '../../public/assets/images/gatherImage.svg';
-import homeImage from '../../public/assets/images/homeImage.svg';
+import greetImage from '../../../public/assets/images/greetImage.svg';
+import giftImage from '../../../public/assets/images/giftImage.svg';
+import gatherImage from '../../../public/assets/images/gatherImage.svg';
+import homeImage from '../../../public/assets/images/homeImage.svg';
 import Image from 'next/image';
 
 interface BottomNavProps {

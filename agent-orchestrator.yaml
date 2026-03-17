@@ -11,6 +11,6 @@ projects:
   screen-builder:
     name: screen-builder
     sessionPrefix: sb
-    repo: ""
+    repo: "git@github.com:dewansh-shukla/screen-builder.git"
     path: /Users/dewanshshukla/Desktop/zapigo/screen-builder
     defaultBranch: main
