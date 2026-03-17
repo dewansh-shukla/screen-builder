@@ -25,12 +25,35 @@ mockups/
 ├── _index.json                          # Master feature list
 ├── [feature-name]/
 │   ├── _feature.json                    # Feature metadata
-│   └── [screen-name]/
-│       ├── current.tsx                  # The screen code (this is what you write)
-│       ├── _screen.json                 # Screen metadata
-│       └── versions/
-│           └── v1.json                  # Version snapshots
+│   ├── [screen-1]/
+│   │   ├── current.tsx                  # Screen code
+│   │   ├── _screen.json                 # Screen metadata
+│   │   └── versions/
+│   │       └── v1.json
+│   ├── [screen-2]/                      # Features can have multiple screens
+│   │   ├── current.tsx
+│   │   ├── _screen.json
+│   │   └── versions/
+│   │       └── v1.json
+│   └── [screen-N]/...
 ```
+
+### Multi-screen features
+A feature is a group of related screens. For example, a `community` feature might have:
+- `community/community-home/current.tsx` — main landing page
+- `community/event-detail/current.tsx` — individual event view
+- `community/member-profile/current.tsx` — user profile page
+
+All screens in a feature are listed in `_feature.json`:
+```json
+{
+  "name": "Community",
+  "description": "Community hub for events and members",
+  "screens": ["community-home", "event-detail", "member-profile"]
+}
+```
+
+Each screen gets its own URL: `localhost:3000/mockups/community/community-home`, etc.
 
 ### Naming conventions
 - Feature names: kebab-case (e.g., `guest-list`, `event-settings`)
@@ -184,6 +207,7 @@ When the PM asks to:
 | PM says | You do |
 |---------|--------|
 | "Create a [description] page" | Create new feature + screen with full code |
+| "Add another page to [feature]" | Add a new screen under the existing feature, update _feature.json screens array |
 | "Update the [screen]" | Edit existing current.tsx, bump version |
 | "Add a sidebar/header to [screen]" | Modify the layout, keep existing content |
 | "Make it look like [description]" | Redesign using available components |
