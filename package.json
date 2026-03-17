@@ -10,6 +10,8 @@
         "sync:check": "tsx scripts/sync-main-app.ts --dry-run",
         "sync:force": "tsx scripts/sync-main-app.ts --force",
         "sync:diff": "tsx scripts/sync-main-app.ts --diff",
+        "sync:watch": "tsx scripts/sync-watch.ts",
+        "sync:ci": "tsx scripts/sync-ci.ts",
         "sync:validate": "bash scripts/cleanup-components.sh"
     },
     "dependencies": {
@@ -53,6 +55,7 @@
         "@types/node": "^24.10.9",
         "@types/react": "^19.2.9",
         "@types/react-dom": "^19.2.3",
+        "chokidar": "^5.0.0",
         "glob": "^13.0.6",
         "hast-util-to-jsx-runtime": "^2.3.6",
         "minimatch": "^10.2.4",
