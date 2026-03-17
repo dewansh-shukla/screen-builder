@@ -64,8 +64,8 @@ export default function GuestTable() {
             <div className="border-b border-secondary">
                 <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                     <div>
-                        <h1 className="font-lexend text-display-xs font-semibold text-gray-900">Guest List</h1>
-                        <p className="mt-1 font-lexend text-sm text-gray-600">Manage your event guests and RSVPs.</p>
+                        <h1 className="font-lexend text-display-xs font-semibold text-primary">Guest List</h1>
+                        <p className="mt-1 font-lexend text-sm text-tertiary">Manage your event guests and RSVPs.</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Button color="secondary" iconLeading={Download01}>
@@ -79,16 +79,16 @@ export default function GuestTable() {
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 {/* Stats */}
                 <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
-                        <p className="font-lexend text-sm font-medium text-gray-600">Confirmed</p>
+                    <div className="rounded-lg border border-secondary p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-tertiary">Confirmed</p>
                         <p className="mt-1 font-lexend text-display-xs font-semibold text-success-primary">{confirmedCount}</p>
                     </div>
-                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
-                        <p className="font-lexend text-sm font-medium text-gray-600">Pending</p>
+                    <div className="rounded-lg border border-secondary p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-tertiary">Pending</p>
                         <p className="mt-1 font-lexend text-display-xs font-semibold text-warning-primary">{pendingCount}</p>
                     </div>
-                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
-                        <p className="font-lexend text-sm font-medium text-gray-600">Declined</p>
+                    <div className="rounded-lg border border-secondary p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-tertiary">Declined</p>
                         <p className="mt-1 font-lexend text-display-xs font-semibold text-error-primary">{declinedCount}</p>
                     </div>
                 </div>
@@ -146,8 +146,8 @@ export default function GuestTable() {
                                                 <div className="flex items-center gap-3">
                                                     <Avatar size="sm" initials={guest.initials} />
                                                     <div>
-                                                        <p className="font-lexend text-sm font-medium text-gray-900">{guest.name}</p>
-                                                        <p className="font-lexend text-sm text-gray-600">{guest.email}</p>
+                                                        <p className="font-lexend text-sm font-medium text-primary">{guest.name}</p>
+                                                        <p className="font-lexend text-sm text-tertiary">{guest.email}</p>
                                                     </div>
                                                 </div>
                                             </Table.Cell>
@@ -157,12 +157,12 @@ export default function GuestTable() {
                                                 </BadgeWithDot>
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <span className="font-lexend text-sm text-gray-600">
+                                                <span className="font-lexend text-sm text-tertiary">
                                                     {guest.plusOnes > 0 ? `+${guest.plusOnes}` : '—'}
                                                 </span>
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <span className="font-lexend text-sm text-gray-600">{guest.table}</span>
+                                                <span className="font-lexend text-sm text-tertiary">{guest.table}</span>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 <Dropdown.Root>
@@ -190,7 +190,7 @@ export default function GuestTable() {
                 {/* Mobile: Card view */}
                 <div className="flex flex-col gap-3 md:hidden">
                     <div className="flex items-center justify-between">
-                        <h2 className="font-lexend text-md font-semibold text-gray-900">All Guests</h2>
+                        <h2 className="font-lexend text-md font-semibold text-primary">All Guests</h2>
                         <Badge color="brand" size="sm">{filtered.length} guests</Badge>
                     </div>
                     {filtered.map((guest) => {
@@ -198,7 +198,7 @@ export default function GuestTable() {
                         return (
                             <div
                                 key={guest.id}
-                                className="rounded-lg border border-gray-200 bg-primary p-4 shadow-xs"
+                                className="rounded-lg border border-secondary bg-primary p-4 shadow-xs"
                             >
                                 <div className="flex items-start gap-3">
                                     <button onClick={() => toggleSelect(guest.id)} className="mt-0.5 flex items-center">
@@ -208,8 +208,8 @@ export default function GuestTable() {
                                         <div className="flex items-center gap-3">
                                             <Avatar size="sm" initials={guest.initials} />
                                             <div className="flex-1">
-                                                <p className="font-lexend text-sm font-medium text-gray-900">{guest.name}</p>
-                                                <p className="font-lexend text-xs text-gray-600">{guest.email}</p>
+                                                <p className="font-lexend text-sm font-medium text-primary">{guest.name}</p>
+                                                <p className="font-lexend text-xs text-tertiary">{guest.email}</p>
                                             </div>
                                             <Dropdown.Root>
                                                 <button className="flex size-8 items-center justify-center rounded-md transition duration-100 ease-linear hover:bg-secondary">
@@ -229,10 +229,10 @@ export default function GuestTable() {
                                             <BadgeWithDot color={rsvp.color} size="sm">
                                                 {rsvp.label}
                                             </BadgeWithDot>
-                                            <span className="font-lexend text-xs text-gray-600">
+                                            <span className="font-lexend text-xs text-tertiary">
                                                 {guest.plusOnes > 0 ? `+${guest.plusOnes} guests` : 'No plus ones'}
                                             </span>
-                                            <span className="font-lexend text-xs text-gray-600">{guest.table}</span>
+                                            <span className="font-lexend text-xs text-tertiary">{guest.table}</span>
                                         </div>
                                     </div>
                                 </div>

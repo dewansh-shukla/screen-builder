@@ -100,24 +100,24 @@ export default function CommunityHome() {
               size="md"
             />
             <div className="flex flex-col gap-1">
-              <h1 className="font-literata text-display-xs font-semibold text-gray-900 md:text-display-sm">
+              <h1 className="font-literata text-display-xs font-semibold text-primary md:text-display-sm">
                 Your Community
               </h1>
-              <p className="font-lexend text-sm text-gray-700">
+              <p className="font-lexend text-sm text-secondary">
                 Stay connected with your events and celebrations
               </p>
             </div>
 
             <div className="mt-1 flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <CalendarIcon className="size-4 text-gray-600" />
-                <span className="font-lexend text-xs font-medium text-gray-700">
+                <CalendarIcon className="size-4 text-tertiary" />
+                <span className="font-lexend text-xs font-medium text-secondary">
                   {pastEvents.length} events this month
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Star01 className="size-4 text-gray-600" />
-                <span className="font-lexend text-xs font-medium text-gray-700">
+                <Star01 className="size-4 text-tertiary" />
+                <span className="font-lexend text-xs font-medium text-secondary">
                   {pastEvents.reduce((sum, e) => sum + e.attendees, 0)} attendees
                 </span>
               </div>
@@ -131,13 +131,13 @@ export default function CommunityHome() {
             {/* Calendar Section */}
             <div className="flex flex-col gap-4 xl:w-[380px] xl:shrink-0">
               <div className="flex items-center justify-between">
-                <h2 className="font-lexend text-lg font-semibold text-gray-900">Event Calendar</h2>
+                <h2 className="font-lexend text-lg font-semibold text-primary">Event Calendar</h2>
                 <Badge color="brand" size="sm">
                   {pastEvents.length} past events
                 </Badge>
               </div>
 
-              <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
+              <div className="rounded-lg border border-secondary p-4 shadow-xs">
                 <CalendarContextProvider>
                   <Calendar
                     highlightedDates={highlightedDates}
@@ -149,13 +149,13 @@ export default function CommunityHome() {
 
               {/* Selected event detail */}
               {selectedEvent && (
-                <div className="rounded-lg border border-gray-200 bg-secondary p-4 shadow-xs transition duration-100 ease-linear">
+                <div className="rounded-lg border border-secondary bg-secondary p-4 shadow-xs transition duration-100 ease-linear">
                   <div className="flex items-start justify-between">
                     <div className="flex flex-col gap-1">
-                      <h3 className="font-lexend text-md font-semibold text-gray-900">
+                      <h3 className="font-lexend text-md font-semibold text-primary">
                         {selectedEvent.title}
                       </h3>
-                      <p className="font-lexend text-sm text-gray-600">
+                      <p className="font-lexend text-sm text-tertiary">
                         {selectedEvent.date.toString()} &middot; {selectedEvent.attendees} attendees
                       </p>
                     </div>
@@ -172,23 +172,23 @@ export default function CommunityHome() {
 
             {/* Past Events List */}
             <div className="flex flex-1 flex-col gap-3">
-              <h2 className="font-lexend text-lg font-semibold text-gray-900">Past Events</h2>
+              <h2 className="font-lexend text-lg font-semibold text-primary">Past Events</h2>
 
               <div className="flex flex-col gap-3">
                 {pastEvents.map((event) => (
                   <button
                     key={event.id}
-                    className="flex items-center gap-3 rounded-lg border border-gray-200 bg-primary p-4 text-left shadow-xs transition duration-100 ease-linear hover:bg-primary_hover"
+                    className="flex items-center gap-3 rounded-lg border border-secondary bg-primary p-4 text-left shadow-xs transition duration-100 ease-linear hover:bg-primary_hover"
                     onClick={() => setSelectedDate(event.date)}
                   >
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-secondary">
                       <CalendarIcon className="size-5 text-fg-brand-primary" />
                     </div>
                     <div className="flex flex-1 flex-col gap-0.5">
-                      <span className="font-lexend text-sm font-medium text-gray-900">
+                      <span className="font-lexend text-sm font-medium text-primary">
                         {event.title}
                       </span>
-                      <span className="font-lexend text-xs text-gray-600">
+                      <span className="font-lexend text-xs text-tertiary">
                         {event.date.toString()} &middot; {event.attendees} attendees
                       </span>
                     </div>
