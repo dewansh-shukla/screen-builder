@@ -46,12 +46,12 @@ import Link from 'next/link';
 //   };
 
 //   const content = (
-//     <div className="font-lexend flex items-center justify-center gap-0.5 rounded-lg px-1.5 py-1 text-base font-semibold text-gray-700 transition-colors hover:bg-gray-100">
+//     <div className="font-lexend flex items-center justify-center gap-0.5 rounded-lg px-1.5 py-1 text-base font-semibold text-secondary transition-colors hover:bg-secondary">
 //       <div className="flex items-center justify-center px-0.5">
 //         <span className="whitespace-nowrap">{label}</span>
 //       </div>
 //       {hasDropdown && (
-//         <ChevronDown className="h-4 w-4 text-gray-500" strokeWidth={2} />
+//         <ChevronDown className="h-4 w-4 text-quaternary" strokeWidth={2} />
 //       )}
 //     </div>
 //   );
@@ -280,8 +280,8 @@ export function Header({
               className="text-title-sans-lg font-lexend z-10 flex cursor-pointer items-center justify-center"
               onClick={handleBackClick}
             >
-              <ChevronLeft className="mr-1 h-6 w-6 text-black" />
-              <span className="text-black">{isScanPath ? 'HOME' : 'BACK'}</span>
+              <ChevronLeft className="mr-1 h-6 w-6 text-primary" />
+              <span className="text-primary">{isScanPath ? 'HOME' : 'BACK'}</span>
             </div>
             {/* Center: Logo (absolutely centered) */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -295,7 +295,7 @@ export function Header({
             </div>
             {/* Right: Menu Icon */}
             <div
-              className="z-10 cursor-pointer !text-black"
+              className="z-10 cursor-pointer !text-primary"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? (
@@ -322,7 +322,7 @@ export function Header({
         {!isInitialRender && (
           <div
             className={cn(
-              'fixed z-50 h-[calc(100vh-4rem)] overflow-y-auto bg-white transition-all duration-300 ease-in-out',
+              'fixed z-50 h-[calc(100vh-4rem)] overflow-y-auto bg-primary transition-all duration-300 ease-in-out',
               isMobile ? 'left-0 w-[80%] max-w-[300px]' : 'right-0 w-[300px]',
               menuOpen
                 ? 'translate-x-0'
@@ -378,13 +378,13 @@ export function Header({
                 <>
                   {/* Left: Profile or Login */}
                   <div className="cursor-pointer" onClick={handleProfileClick}>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-tertiary">
                       {isAuthenticated ? (
-                        <span className="text-sm font-dm-sans font-semibold text-gray-700">
+                        <span className="text-sm font-dm-sans font-semibold text-secondary">
                           {getInitials(userData?.display_name)}
                         </span>
                       ) : (
-                        <User01 className="h-5 w-5 text-gray-700" />
+                        <User01 className="h-5 w-5 text-secondary" />
                       )}
                     </div>
                   </div>
@@ -402,7 +402,7 @@ export function Header({
 
                   {/* Right: Hamburger menu */}
                   <div
-                    className="cursor-pointer !text-black"
+                    className="cursor-pointer !text-primary"
                     onClick={() => setMenuOpen(!menuOpen)}
                   >
                     {menuOpen ? (
@@ -418,16 +418,16 @@ export function Header({
                   {/* Left: Profile */}
                   <div className="cursor-pointer" onClick={handleProfileClick}>
                     <div className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-tertiary">
                         {isAuthenticated ? (
-                          <span className="text-xs font-dm-sans font-semibold text-gray-700">
+                          <span className="text-xs font-dm-sans font-semibold text-secondary">
                             {getInitials(userData?.display_name)}
                           </span>
                         ) : (
-                          <User01 className="h-4 w-4 text-gray-700" />
+                          <User01 className="h-4 w-4 text-secondary" />
                         )}
                       </div>
-                      <span className="text-headline-sm font-dm-sans text-black">
+                      <span className="text-headline-sm font-dm-sans text-primary">
                         {isAuthenticated ? (userData?.display_name || 'User') : 'Login'}
                       </span>
                     </div>
@@ -446,7 +446,7 @@ export function Header({
 
                   {/* Right: Hamburger */}
                   <div
-                    className="cursor-pointer text-black"
+                    className="cursor-pointer text-primary"
                     onClick={() => setMenuOpen(!menuOpen)}
                   >
                     {menuOpen ? (
@@ -483,20 +483,20 @@ export function Header({
                       onClick={isAuthenticated ? () => router.push('/me') : () => openLoginModal()}
                       className="cursor-pointer"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-tertiary">
                         {isAuthenticated ? (
-                          <span className="text-sm font-dm-sans font-semibold text-gray-700">
+                          <span className="text-sm font-dm-sans font-semibold text-secondary">
                             {getInitials(userData?.display_name)}
                           </span>
                         ) : (
-                          <User01 className="h-5 w-5 text-gray-700" />
+                          <User01 className="h-5 w-5 text-secondary" />
                         )}
                       </div>
                     </div>
 
                     {/* Hamburger menu */}
                     <div
-                      className="cursor-pointer text-black"
+                      className="cursor-pointer text-primary"
                       onClick={() => setMenuOpen(!menuOpen)}
                     >
                       {menuOpen ? (
@@ -517,16 +517,16 @@ export function Header({
                       className="flex items-center gap-2 cursor-pointer transition-colors hover:opacity-80"
                       title={isAuthenticated ? "Go to Profile" : "Login"}
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-tertiary transition-colors hover:bg-secondary_hover">
                         {isAuthenticated ? (
-                          <span className="text-sm font-dm-sans font-semibold text-gray-700">
+                          <span className="text-sm font-dm-sans font-semibold text-secondary">
                             {getInitials(userData?.display_name)}
                           </span>
                         ) : (
-                          <User01 className="h-5 w-5 text-gray-700" />
+                          <User01 className="h-5 w-5 text-secondary" />
                         )}
                       </div>
-                      <span className="font-lexend text-base font-semibold text-gray-700">
+                      <span className="font-lexend text-base font-semibold text-secondary">
                         {isAuthenticated ? (userData?.display_name || 'User') : 'Login'}
                       </span>
                     </div>
@@ -554,33 +554,33 @@ export function Header({
                             e.stopPropagation();
                             setInviteDropdownOpen(!inviteDropdownOpen);
                           }}
-                          className="font-lexend flex items-center justify-center gap-0.5 rounded-lg px-1.5 py-1 text-base font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+                          className="font-lexend flex items-center justify-center gap-0.5 rounded-lg px-1.5 py-1 text-base font-semibold text-secondary transition-colors hover:bg-secondary"
                         >
                           <div className="flex items-center justify-center px-0.5">
                             <span className="whitespace-nowrap">Invite Website</span>
                           </div>
-                          <ChevronDown className="h-4 w-4 text-gray-500" strokeWidth={2} />
+                          <ChevronDown className="h-4 w-4 text-quaternary" strokeWidth={2} />
                         </button>
 
                         {/* Dropdown Menu */}
                         {inviteDropdownOpen && (
-                          <div className="absolute left-0 top-full mt-1 w-48 rounded-lg border border-gray-200 bg-white shadow-lg">
+                          <div className="absolute left-0 top-full mt-1 w-48 rounded-lg border border-secondary bg-primary shadow-lg">
                             <div className="py-1">
                               <Link
                                 href="/gather/kids-birthday"
-                                className="font-lexend block px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                                className="font-lexend block px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-secondary"
                               >
                                 Kids Birthday
                               </Link>
                               <Link
                                 href="/gather/party"
-                                className="font-lexend block px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                                className="font-lexend block px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-secondary"
                               >
                                 Party
                               </Link>
                               {/* <Link
                                 href="/gather/diwali"
-                                className="font-lexend block px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                                className="font-lexend block px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-secondary"
                               >
                                 Diwali
                               </Link> */}
@@ -615,7 +615,7 @@ export function Header({
               >
                 {/* Left: Back Button */}
                 <div
-                  className="text-title-sans-lg font-lexend z-10 flex cursor-pointer items-center justify-center text-black"
+                  className="text-title-sans-lg font-lexend z-10 flex cursor-pointer items-center justify-center text-primary"
                   onClick={handleBackClick}
                 >
                   <ChevronLeft className="mr-1 h-6 w-6" />
@@ -635,7 +635,7 @@ export function Header({
                 <div className="z-10 flex items-center gap-2">
                   {rightElements}
                   <div
-                    className="cursor-pointer text-black"
+                    className="cursor-pointer text-primary"
                     onClick={() => setMenuOpen(!menuOpen)}
                   >
                     {menuOpen ? (
@@ -666,7 +666,7 @@ export function Header({
       {!isInitialRender && (
         <div
           className={cn(
-            'fixed z-50 h-[calc(100vh-4rem)] overflow-y-auto bg-white transition-all duration-300 ease-in-out',
+            'fixed z-50 h-[calc(100vh-4rem)] overflow-y-auto bg-primary transition-all duration-300 ease-in-out',
             isMobile ? 'left-0 w-[80%] max-w-[300px]' : 'right-0 w-[300px]',
             menuOpen
               ? 'translate-x-0'
