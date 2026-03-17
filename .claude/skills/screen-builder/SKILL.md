@@ -124,7 +124,7 @@ export default function ScreenName() {
 - Always `export default function` — the dynamic route imports the default export
 - Always `'use client'` at the top if the screen has any interactivity (state, handlers, effects)
 - Use ONLY design system components — never raw `<button>`, `<input>`, `<table>`, etc.
-- Use semantic color classes: `text-primary`, `bg-secondary`, `border-primary` — NOT `text-gray-900`, `bg-gray-50`
+- **⚠️ WARNING: NEVER use raw Tailwind gray classes** (`text-gray-900`, `bg-gray-100`, `border-gray-200`, etc.). In Tailwind v4, these resolve to `oklch()` colors that DON'T match our theme's `rgb()` gray scale, producing wrong colors. Always use semantic tokens instead: `text-primary`, `text-secondary`, `text-tertiary`, `text-quaternary`, `bg-primary`, `bg-secondary`, `bg-tertiary`, `border-primary`, `border-secondary`, `border-tertiary`. See `references/tokens.md` for the full list.
 - Import icons from `@untitledui/icons`
 - Prefix React Aria imports with `Aria*` (e.g., `import { Button as AriaButton } from 'react-aria-components'`)
 - Include realistic placeholder data (names, emails, dates, amounts)
