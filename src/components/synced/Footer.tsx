@@ -43,12 +43,12 @@ export const Footer = ({
   }
   return (
     <footer
-      className={`sticky bottom-0 z-[100] w-full border-t-[1px] border-gray-200 bg-white p-3`}
+      className={`sticky bottom-0 z-[100] w-full border-t-[1px] border-secondary bg-primary p-3`}
     >
       <div className="flex h-full w-full items-center justify-between space-x-2">
         {showLeftButton && (
           <motion.div
-            className="flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-white"
+            className="flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-primary"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => router.back()}

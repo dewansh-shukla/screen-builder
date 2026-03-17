@@ -265,7 +265,7 @@ export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
       animate="animate"
       whileHover="hover"
       whileTap="tap"
-      className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-gray-50"
+      className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-secondary"
       onClick={() => {
         if (item.action) {
           item.action();
@@ -341,7 +341,7 @@ export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
                 animate="animate"
                 whileHover="hover"
                 whileTap="tap"
-                className="mt-2 flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-gray-50"
+                className="mt-2 flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-secondary"
                 onClick={() => {
                   if (navItem.href) {
                     handleNavigation(navItem.href);
@@ -462,7 +462,7 @@ export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="text-sm text-gray-500 italic"
+                    className="text-sm text-quaternary italic"
                   >
                     No drafts available
                   </motion.div>
@@ -492,7 +492,7 @@ export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
 
       <motion.div variants={itemVariants}>
         <motion.div
-          className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-gray-50"
+          className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-secondary"
           whileHover={{ x: 5 }}
           whileTap={{ scale: 0.95 }}
           onClick={e => {
@@ -533,7 +533,7 @@ export function MenuDialog({ open, onOpenChange, className }: MenuDialogProps) {
       {isAuthenticated && (
         <motion.div
           variants={itemVariants}
-          className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-gray-50"
+          className="flex cursor-pointer items-center space-x-3 rounded-md px-2 py-2 hover:bg-secondary"
           whileHover={{ x: 5 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => handleLogout()}
