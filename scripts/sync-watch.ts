@@ -3,6 +3,8 @@
  * sync-watch.ts
  *
  * Watches the source repo for changes and triggers incremental re-syncs.
+ * Dynamically reads ALL sections from sync-config.json that have
+ * include/exclude patterns (components, appComponents, hooks, supporting, etc).
  *
  * Usage:
  *   npx tsx scripts/sync-watch.ts
@@ -51,16 +53,21 @@ function logDim(msg: string) {
 }
 
 // ---------------------------------------------------------------------------
-// Types (duplicated from sync-main-app.ts to keep scripts independent)
+// Types
 // ---------------------------------------------------------------------------
+interface SyncSection {
+  include: string[];
+  exclude: string[];
+}
+
 interface SyncConfig {
   sourceRepo: string;
   sourcePath: string;
-  components: { include: string[]; exclude: string[] };
-  hooks: { include: string[]; exclude: string[] };
   targetMapping: Record<string, string>;
   apiPatterns: string[];
   importRemaps?: Record<string, string>;
+  // All other keys with include/exclude are sync sections
+  [key: string]: unknown;
 }
 
 interface ManifestFileEntry {
@@ -82,9 +89,42 @@ interface SyncManifest {
 // ---------------------------------------------------------------------------
 const ROOT = path.resolve(__dirname, "..");
 
+/** Known non-section keys in sync-config.json */
+const CONFIG_META_KEYS = new Set([
+  "sourceRepo",
+  "sourcePath",
+  "targetMapping",
+  "apiPatterns",
+  "importRemaps",
+]);
+
 function readConfig(): SyncConfig {
   const configPath = path.join(ROOT, "sync-config.json");
   return JSON.parse(fs.readFileSync(configPath, "utf-8"));
+}
+
+/**
+ * Extract all sync sections (objects with include/exclude arrays) from config.
+ * This dynamically handles components, appComponents, hooks, supporting, and
+ * any future sections without code changes.
+ */
+function getSyncSections(config: SyncConfig): Record<string, SyncSection> {
+  const sections: Record<string, SyncSection> = {};
+
+  for (const [key, value] of Object.entries(config)) {
+    if (CONFIG_META_KEYS.has(key)) continue;
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      "include" in value &&
+      Array.isArray((value as SyncSection).include)
+    ) {
+      sections[key] = value as SyncSection;
+    }
+  }
+
+  return sections;
 }
 
 function readManifest(): SyncManifest {
@@ -132,19 +172,25 @@ function resolveTargetPath(
 
 /**
  * Check whether a file (relative to sourcePath) matches the include/exclude
- * patterns defined in the sync config.
+ * patterns defined in any sync section of the config.
  */
-function isTrackedFile(relPath: string, config: SyncConfig): boolean {
+function isTrackedFile(
+  relPath: string,
+  sections: Record<string, SyncSection>
+): boolean {
   const matchesAny = (patterns: string[]) =>
     patterns.some((p) => minimatch(relPath, p));
 
-  const inComponents =
-    matchesAny(config.components.include) &&
-    !matchesAny(config.components.exclude);
-  const inHooks =
-    matchesAny(config.hooks.include) && !matchesAny(config.hooks.exclude);
+  for (const section of Object.values(sections)) {
+    if (
+      matchesAny(section.include) &&
+      !matchesAny(section.exclude ?? [])
+    ) {
+      return true;
+    }
+  }
 
-  return inComponents || inHooks;
+  return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -235,21 +281,25 @@ const DEBOUNCE_MS = 500;
 
 function startWatcher(config: SyncConfig): FSWatcher {
   const manifest = readManifest();
+  const sections = getSyncSections(config);
+  const sectionNames = Object.keys(sections);
 
-  // Build the list of directories to watch from the include patterns.
-  // We watch the top-level source directories that contain tracked files.
+  // Collect all include patterns from every section
+  const allIncludes: string[] = [];
+  for (const section of Object.values(sections)) {
+    allIncludes.push(...section.include);
+  }
+
+  // Build watch directories from include patterns
   const watchDirs = new Set<string>();
-  const allIncludes = [
-    ...config.components.include,
-    ...config.hooks.include,
-  ];
 
   for (const pattern of allIncludes) {
     // Extract the directory prefix before any glob characters
     const parts = pattern.split("/");
     const dirParts: string[] = [];
     for (const part of parts) {
-      if (part.includes("*") || part.includes("?") || part.includes("{")) break;
+      if (part.includes("*") || part.includes("?") || part.includes("{"))
+        break;
       dirParts.push(part);
     }
     if (dirParts.length > 0) {
@@ -261,12 +311,15 @@ function startWatcher(config: SyncConfig): FSWatcher {
   }
 
   if (watchDirs.size === 0) {
-    logError("No valid directories to watch. Check sync-config.json include patterns.");
+    logError(
+      "No valid directories to watch. Check sync-config.json include patterns."
+    );
     process.exit(1);
   }
 
   log(`${C.bold}${C.cyan}=== Screen Builder Sync Watcher ===${C.reset}\n`);
   logDim(`Source: ${config.sourcePath}`);
+  logDim(`Sections: ${sectionNames.join(", ")}`);
   logDim(`Watching ${watchDirs.size} directories:`);
   for (const dir of watchDirs) {
     logDim(`  ${dir}`);
@@ -306,7 +359,7 @@ function startWatcher(config: SyncConfig): FSWatcher {
     const relPath = path.relative(config.sourcePath, absPath);
 
     // Only process files that match our include/exclude rules
-    if (!isTrackedFile(relPath, config)) return;
+    if (!isTrackedFile(relPath, sections)) return;
 
     pendingFiles.add(relPath);
 

@@ -11,7 +11,6 @@
         "sync:force": "tsx scripts/sync-main-app.ts --force",
         "sync:diff": "tsx scripts/sync-main-app.ts --diff",
         "sync:watch": "tsx scripts/sync-watch.ts",
-        "sync:ci": "tsx scripts/sync-ci.ts",
         "sync:validate": "bash scripts/cleanup-components.sh"
     },
     "dependencies": {
