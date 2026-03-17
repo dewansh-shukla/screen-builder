@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { DotsHorizontal, Download01, FilterLines, Plus, SearchSm, UserPlus01 } from '@untitledui/icons'
+import { DotsHorizontal, Download01, FilterLines, SearchSm, UserPlus01 } from '@untitledui/icons'
 import { Badge, BadgeWithDot } from '@/components/base/badges/badges'
 import { Button } from '@/components/base/buttons/button'
 import { CheckboxBase } from '@/components/base/checkbox/checkbox'
@@ -62,10 +62,10 @@ export default function GuestTable() {
         <PageWrapper showHeader={true} showFooter={false} maxDesktopWidth="1440px">
             {/* Page header */}
             <div className="border-b border-secondary">
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+                <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                     <div>
-                        <h1 className="text-display-xs font-semibold text-primary">Guest List</h1>
-                        <p className="mt-1 text-sm text-tertiary">Manage your event guests and RSVPs.</p>
+                        <h1 className="font-lexend text-display-xs font-semibold text-gray-900">Guest List</h1>
+                        <p className="mt-1 font-lexend text-sm text-gray-600">Manage your event guests and RSVPs.</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Button color="secondary" iconLeading={Download01}>
@@ -79,23 +79,23 @@ export default function GuestTable() {
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 {/* Stats */}
                 <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div className="rounded-xl border border-secondary p-4">
-                        <p className="text-sm font-medium text-tertiary">Confirmed</p>
-                        <p className="mt-1 text-display-xs font-semibold text-success-primary">{confirmedCount}</p>
+                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-gray-600">Confirmed</p>
+                        <p className="mt-1 font-lexend text-display-xs font-semibold text-success-primary">{confirmedCount}</p>
                     </div>
-                    <div className="rounded-xl border border-secondary p-4">
-                        <p className="text-sm font-medium text-tertiary">Pending</p>
-                        <p className="mt-1 text-display-xs font-semibold text-warning-primary">{pendingCount}</p>
+                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-gray-600">Pending</p>
+                        <p className="mt-1 font-lexend text-display-xs font-semibold text-warning-primary">{pendingCount}</p>
                     </div>
-                    <div className="rounded-xl border border-secondary p-4">
-                        <p className="text-sm font-medium text-tertiary">Declined</p>
-                        <p className="mt-1 text-display-xs font-semibold text-error-primary">{declinedCount}</p>
+                    <div className="rounded-lg border border-gray-200 p-4 shadow-xs">
+                        <p className="font-lexend text-sm font-medium text-gray-600">Declined</p>
+                        <p className="mt-1 font-lexend text-display-xs font-semibold text-error-primary">{declinedCount}</p>
                     </div>
                 </div>
 
                 {/* Search and filters */}
-                <div className="mb-4 flex items-center justify-between gap-4">
-                    <div className="w-full max-w-sm">
+                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                    <div className="w-full sm:max-w-sm">
                         <Input
                             icon={SearchSm}
                             placeholder="Search guests..."
@@ -108,62 +108,109 @@ export default function GuestTable() {
                     </Button>
                 </div>
 
-                {/* Table */}
-                <TableCard.Root>
-                    <TableCard.Header
-                        title="All Guests"
-                        badge={<Badge color="brand" size="sm">{filtered.length} guests</Badge>}
-                    />
-                    <Table size="sm">
-                        <Table.Header>
-                            <Table.Head className="w-8">
-                                <button onClick={toggleAll} className="flex items-center">
-                                    <CheckboxBase
-                                        size="sm"
-                                        isSelected={selectedIds.size === filtered.length && filtered.length > 0}
-                                        isIndeterminate={selectedIds.size > 0 && selectedIds.size < filtered.length}
-                                    />
-                                </button>
-                            </Table.Head>
-                            <Table.Head>Name</Table.Head>
-                            <Table.Head>RSVP Status</Table.Head>
-                            <Table.Head>Plus Ones</Table.Head>
-                            <Table.Head>Table</Table.Head>
-                            <Table.Head className="w-12" />
-                        </Table.Header>
-                        <Table.Body>
-                            {filtered.map((guest) => {
-                                const rsvp = rsvpConfig[guest.rsvp]
-                                return (
-                                    <Table.Row key={guest.id}>
-                                        <Table.Cell>
-                                            <button onClick={() => toggleSelect(guest.id)} className="flex items-center">
-                                                <CheckboxBase size="sm" isSelected={selectedIds.has(guest.id)} />
-                                            </button>
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <div className="flex items-center gap-3">
-                                                <Avatar size="sm" initials={guest.initials} />
-                                                <div>
-                                                    <p className="text-sm font-medium text-primary">{guest.name}</p>
-                                                    <p className="text-sm text-tertiary">{guest.email}</p>
+                {/* Desktop: Table view */}
+                <div className="hidden md:block">
+                    <TableCard.Root>
+                        <TableCard.Header
+                            title="All Guests"
+                            badge={<Badge color="brand" size="sm">{filtered.length} guests</Badge>}
+                        />
+                        <Table size="sm">
+                            <Table.Header>
+                                <Table.Head className="w-8">
+                                    <button onClick={toggleAll} className="flex items-center">
+                                        <CheckboxBase
+                                            size="sm"
+                                            isSelected={selectedIds.size === filtered.length && filtered.length > 0}
+                                            isIndeterminate={selectedIds.size > 0 && selectedIds.size < filtered.length}
+                                        />
+                                    </button>
+                                </Table.Head>
+                                <Table.Head>Name</Table.Head>
+                                <Table.Head>RSVP Status</Table.Head>
+                                <Table.Head>Plus Ones</Table.Head>
+                                <Table.Head>Table</Table.Head>
+                                <Table.Head className="w-12" />
+                            </Table.Header>
+                            <Table.Body>
+                                {filtered.map((guest) => {
+                                    const rsvp = rsvpConfig[guest.rsvp]
+                                    return (
+                                        <Table.Row key={guest.id}>
+                                            <Table.Cell>
+                                                <button onClick={() => toggleSelect(guest.id)} className="flex items-center">
+                                                    <CheckboxBase size="sm" isSelected={selectedIds.has(guest.id)} />
+                                                </button>
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <div className="flex items-center gap-3">
+                                                    <Avatar size="sm" initials={guest.initials} />
+                                                    <div>
+                                                        <p className="font-lexend text-sm font-medium text-gray-900">{guest.name}</p>
+                                                        <p className="font-lexend text-sm text-gray-600">{guest.email}</p>
+                                                    </div>
                                                 </div>
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <BadgeWithDot color={rsvp.color} size="sm">
+                                                    {rsvp.label}
+                                                </BadgeWithDot>
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <span className="font-lexend text-sm text-gray-600">
+                                                    {guest.plusOnes > 0 ? `+${guest.plusOnes}` : '—'}
+                                                </span>
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <span className="font-lexend text-sm text-gray-600">{guest.table}</span>
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <Dropdown.Root>
+                                                    <button className="flex size-8 items-center justify-center rounded-md transition duration-100 ease-linear hover:bg-secondary">
+                                                        <DotsHorizontal className="size-5 text-fg-quaternary" />
+                                                    </button>
+                                                    <Dropdown.Popover>
+                                                        <Dropdown.Menu>
+                                                            <Dropdown.Item label="Edit" />
+                                                            <Dropdown.Item label="Send reminder" />
+                                                            <Dropdown.Separator />
+                                                            <Dropdown.Item label="Remove" />
+                                                        </Dropdown.Menu>
+                                                    </Dropdown.Popover>
+                                                </Dropdown.Root>
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    )
+                                })}
+                            </Table.Body>
+                        </Table>
+                    </TableCard.Root>
+                </div>
+
+                {/* Mobile: Card view */}
+                <div className="flex flex-col gap-3 md:hidden">
+                    <div className="flex items-center justify-between">
+                        <h2 className="font-lexend text-md font-semibold text-gray-900">All Guests</h2>
+                        <Badge color="brand" size="sm">{filtered.length} guests</Badge>
+                    </div>
+                    {filtered.map((guest) => {
+                        const rsvp = rsvpConfig[guest.rsvp]
+                        return (
+                            <div
+                                key={guest.id}
+                                className="rounded-lg border border-gray-200 bg-primary p-4 shadow-xs"
+                            >
+                                <div className="flex items-start gap-3">
+                                    <button onClick={() => toggleSelect(guest.id)} className="mt-0.5 flex items-center">
+                                        <CheckboxBase size="sm" isSelected={selectedIds.has(guest.id)} />
+                                    </button>
+                                    <div className="flex flex-1 flex-col gap-2">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar size="sm" initials={guest.initials} />
+                                            <div className="flex-1">
+                                                <p className="font-lexend text-sm font-medium text-gray-900">{guest.name}</p>
+                                                <p className="font-lexend text-xs text-gray-600">{guest.email}</p>
                                             </div>
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <BadgeWithDot color={rsvp.color} size="sm">
-                                                {rsvp.label}
-                                            </BadgeWithDot>
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <span className="text-sm text-tertiary">
-                                                {guest.plusOnes > 0 ? `+${guest.plusOnes}` : '—'}
-                                            </span>
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <span className="text-sm text-tertiary">{guest.table}</span>
-                                        </Table.Cell>
-                                        <Table.Cell>
                                             <Dropdown.Root>
                                                 <button className="flex size-8 items-center justify-center rounded-md transition duration-100 ease-linear hover:bg-secondary">
                                                     <DotsHorizontal className="size-5 text-fg-quaternary" />
@@ -177,13 +224,22 @@ export default function GuestTable() {
                                                     </Dropdown.Menu>
                                                 </Dropdown.Popover>
                                             </Dropdown.Root>
-                                        </Table.Cell>
-                                    </Table.Row>
-                                )
-                            })}
-                        </Table.Body>
-                    </Table>
-                </TableCard.Root>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <BadgeWithDot color={rsvp.color} size="sm">
+                                                {rsvp.label}
+                                            </BadgeWithDot>
+                                            <span className="font-lexend text-xs text-gray-600">
+                                                {guest.plusOnes > 0 ? `+${guest.plusOnes} guests` : 'No plus ones'}
+                                            </span>
+                                            <span className="font-lexend text-xs text-gray-600">{guest.table}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
 
                 <div className="mt-4">
                     <PaginationPageDefault page={page} total={3} onPageChange={setPage} />
