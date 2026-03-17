@@ -1,0 +1,5 @@
+{
+  "name": "Community",
+  "description": "Community hub for events, celebrations, and member engagement",
+  "screens": ["community-home"]
+}
